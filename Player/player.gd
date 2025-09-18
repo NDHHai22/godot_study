@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+# Signal để thông báo khi player đã sẵn sàng
+signal player_ready
+
 const SPEED = 300.0
 const JUMP_VELOCITY = -800.0
 const FLY_SPEED = 300.0  # Tốc độ bay bằng tốc độ chạy
@@ -10,6 +13,7 @@ const BLINK_INTERVAL_MIN = 3.0  # Khoảng thời gian tối thiểu giữa các
 const BLINK_INTERVAL_MAX = 5.0  # Khoảng thời gian tối đa giữa các lần chớp mắt
 
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var camera = $Camera2D
 
 # Biến trạng thái
 var is_flying = false
@@ -23,12 +27,72 @@ var last_direction = 1  # 1 for right, -1 for left
 var was_on_floor_last_frame = false
 var platform_snap_distance = 10.0
 
+# Camera settings
+var camera_smoothing_speed = 5.0
+var camera_offset = Vector2.ZERO  # Offset cho camera nếu cần
+
 func _ready():
 	# Đặt animation mặc định
 	animated_sprite.play("idle")
 	# Thiết lập thời gian chớp mắt đầu tiên
 	randomize()
 	next_blink_time = randf_range(BLINK_INTERVAL_MIN, BLINK_INTERVAL_MAX)
+
+	# Thiết lập camera để theo dõi player
+	setup_camera()
+
+	# Emit signal để thông báo player đã sẵn sàng
+	player_ready.emit()
+
+func setup_camera():
+	if camera:
+		# Kích hoạt camera
+		camera.enabled = true
+		camera.make_current()
+
+		# Thiết lập smooth movement cho camera
+		camera.position_smoothing_enabled = false
+		camera.position_smoothing_speed = camera_smoothing_speed
+
+		# Đảm bảo camera limit smoothing được bật
+		camera.limit_smoothed = true
+
+		# Thiết lập offset nếu có
+		camera.offset = camera_offset
+
+		print("Camera đã được thiết lập và kích hoạt với smoothing speed: ", camera_smoothing_speed)
+
+# Hàm để cập nhật giới hạn camera từ bên ngoài
+func set_camera_limits(left: int, right: int, top: int, bottom: int):
+	print("=== PLAYER SET_CAMERA_LIMITS CALLED ===")
+	print("Parameters: Left=", left, ", Right=", right, ", Top=", top, ", Bottom=", bottom)
+	print("Camera exists: ", camera != null)
+
+	if camera:
+		print("Setting camera limits...")
+		camera.limit_left = left
+		camera.limit_right = right
+		camera.limit_top = top
+		camera.limit_bottom = bottom
+		print("Camera limits đã được cập nhật: Left=", left, ", Right=", right, ", Top=", top, ", Bottom=", bottom)
+
+		# Verify the limits were actually set
+		print("Verification - Current limits: Left=", camera.limit_left, ", Right=", camera.limit_right, ", Top=", camera.limit_top, ", Bottom=", camera.limit_bottom)
+	else:
+		print("ERROR: Camera not found in set_camera_limits!")
+
+# Hàm để điều chỉnh camera settings
+func set_camera_smoothing(speed: float):
+	camera_smoothing_speed = speed
+	if camera:
+		camera.position_smoothing_speed = speed
+		print("Camera smoothing speed đã được cập nhật: ", speed)
+
+func set_camera_offset(offset: Vector2):
+	camera_offset = offset
+	if camera:
+		camera.offset = offset
+		print("Camera offset đã được cập nhật: ", offset)
 
 func _physics_process(delta: float) -> void:
 	# Lưu trạng thái floor trước khi xử lý

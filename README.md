@@ -125,9 +125,12 @@ base/
 - Gravity system tự động
 - Move and slide cho movement mượt mà
 
-### Camera
-- Follow camera theo nhân vật
-- Smooth movement
+### Camera System
+- **Auto-follow camera** theo nhân vật với smooth movement
+- **Map limits** tự động giới hạn camera theo kích thước map (0-3000x, 0-1000y)
+- **Position smoothing** với tốc độ có thể điều chỉnh (mặc định: 5.0)
+- **Limit smoothing** để tránh camera bị giật khi chạm biên
+- **Camera offset** có thể điều chỉnh cho cinematic effects
 
 ## 🎨 Art Assets
 
@@ -137,14 +140,24 @@ Background được thiết kế theo phong cách parallax với 8 layer khác n
 
 ## 📝 Roadmap
 
+### ✅ Completed
+- [x] **Camera System**: Auto-follow camera với map limits và smooth movement
+- [x] **Player Movement**: Bay, chạy, nhảy với animation system hoàn chỉnh
+- [x] **One-way Platforms**: Hệ thống platform có thể đi qua từ dưới lên
+
+### 🚧 In Progress
 - [ ] Thêm enemy và AI system
 - [ ] Implement combat mechanics
-- [ ] Level design nâng cao
+
+### 📋 Planned
+- [ ] Level design nâng cao với multiple areas
 - [ ] Sound effects và background music
-- [ ] Power-ups và items
-- [ ] Story mode
-- [ ] Multiple levels
+- [ ] Power-ups và items system
+- [ ] Story mode với cutscenes
+- [ ] Multiple levels với different themes
 - [ ] Save/Load system
+- [ ] Camera effects (shake, zoom, cinematic)
+- [ ] Dynamic camera limits dựa trên areas
 
 ## 🤝 Đóng góp
 
