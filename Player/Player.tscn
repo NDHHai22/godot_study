@@ -1,0 +1,888 @@
+[gd_scene load_steps=199 format=3 uid="uid://ppbpie6uy3eg"]
+
+[ext_resource type="Texture2D" uid="uid://bv08ybmph0n8o" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_000.png" id="1_eho2d"]
+[ext_resource type="Script" uid="uid://dnu04jvx8w5vq" path="res://Player/player.gd" id="1_tgjvq"]
+[ext_resource type="Texture2D" uid="uid://dccwr0bfebi65" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_001.png" id="2_tgjvq"]
+[ext_resource type="Texture2D" uid="uid://bdf3a5sm4pew7" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_002.png" id="3_hqjbc"]
+[ext_resource type="Texture2D" uid="uid://b2w2mp48buvem" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_003.png" id="4_te4fj"]
+[ext_resource type="Texture2D" uid="uid://dtugwlwenprur" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_004.png" id="5_sbdi4"]
+[ext_resource type="Texture2D" uid="uid://dm02ga46k1fjv" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_005.png" id="6_xbunv"]
+[ext_resource type="Texture2D" uid="uid://bqqcodsalnn65" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_006.png" id="7_xwpm4"]
+[ext_resource type="Texture2D" uid="uid://dhapskyx6fpld" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_007.png" id="8_eg58e"]
+[ext_resource type="Texture2D" uid="uid://bdmrpsx38adh6" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_008.png" id="9_lqg8d"]
+[ext_resource type="Texture2D" uid="uid://b3vtfr8bfweku" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_009.png" id="10_mtck7"]
+[ext_resource type="Texture2D" uid="uid://du26m7hqc5wbo" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_010.png" id="11_v4ayx"]
+[ext_resource type="Texture2D" uid="uid://c6gm07v7gscev" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_011.png" id="12_yjksk"]
+[ext_resource type="Texture2D" uid="uid://dwhdbr44vi86y" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_012.png" id="13_hfqoh"]
+[ext_resource type="Texture2D" uid="uid://db6yl7i76brm" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_013.png" id="14_dgtww"]
+[ext_resource type="Texture2D" uid="uid://3yc38ms0blon" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_014.png" id="15_ijmns"]
+[ext_resource type="Texture2D" uid="uid://bxkgrrw2k2gpk" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Falling Down/0_Fallen_Angels_Falling Down_000.png" id="16_glggr"]
+[ext_resource type="Texture2D" uid="uid://bmwycklgwpexj" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Falling Down/0_Fallen_Angels_Falling Down_001.png" id="17_rc5cs"]
+[ext_resource type="Texture2D" uid="uid://8ekw6o36hn3d" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Falling Down/0_Fallen_Angels_Falling Down_002.png" id="18_lk0pi"]
+[ext_resource type="Texture2D" uid="uid://cj4r8e6guaon5" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Falling Down/0_Fallen_Angels_Falling Down_003.png" id="19_u08xl"]
+[ext_resource type="Texture2D" uid="uid://cmtw7s4s62xgu" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Falling Down/0_Fallen_Angels_Falling Down_004.png" id="20_6tibp"]
+[ext_resource type="Texture2D" uid="uid://bi20xtx2p0vto" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Falling Down/0_Fallen_Angels_Falling Down_005.png" id="21_k36q6"]
+[ext_resource type="Texture2D" uid="uid://d1c2edm5ki64a" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_000.png" id="22_j5ogq"]
+[ext_resource type="Texture2D" uid="uid://rvy66gf8wkyy" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_001.png" id="23_kc7ar"]
+[ext_resource type="Texture2D" uid="uid://did6t30llcxbb" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_002.png" id="24_xxe1a"]
+[ext_resource type="Texture2D" uid="uid://bs01gl83mqttk" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_003.png" id="25_ki20c"]
+[ext_resource type="Texture2D" uid="uid://b4p1k4n46dnnu" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_004.png" id="26_2fyt3"]
+[ext_resource type="Texture2D" uid="uid://nhesfgbpt3x" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_005.png" id="27_luwac"]
+[ext_resource type="Texture2D" uid="uid://d24shv4ner1ar" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_006.png" id="28_qng0e"]
+[ext_resource type="Texture2D" uid="uid://bcdrd6fytip1p" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_007.png" id="29_q6bhh"]
+[ext_resource type="Texture2D" uid="uid://b7bsu6cmdpa0x" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_008.png" id="30_etoxe"]
+[ext_resource type="Texture2D" uid="uid://ci7fhsgrnsuhu" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_009.png" id="31_ffa6h"]
+[ext_resource type="Texture2D" uid="uid://dsbcu2clj5he2" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_010.png" id="32_e28q5"]
+[ext_resource type="Texture2D" uid="uid://cuoqo6jm0fblf" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Hurt/0_Fallen_Angels_Hurt_011.png" id="33_1ywx8"]
+[ext_resource type="Texture2D" uid="uid://b8xkgn2uqryqj" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_000.png" id="34_ojo1d"]
+[ext_resource type="Texture2D" uid="uid://cefbvqoyudhv4" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_001.png" id="35_5bk4p"]
+[ext_resource type="Texture2D" uid="uid://cb4d5h37pqj26" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_002.png" id="36_wgme3"]
+[ext_resource type="Texture2D" uid="uid://cdgjrdmsu4csg" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_003.png" id="37_rbhp6"]
+[ext_resource type="Texture2D" uid="uid://lvcwk83ii7ue" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_004.png" id="38_bq8su"]
+[ext_resource type="Texture2D" uid="uid://s23arjd30802" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_005.png" id="39_q5ikf"]
+[ext_resource type="Texture2D" uid="uid://dft3wjiei3gsb" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_006.png" id="40_fkbj0"]
+[ext_resource type="Texture2D" uid="uid://dg2tooc6avxt2" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_007.png" id="41_jc7gi"]
+[ext_resource type="Texture2D" uid="uid://25a3ibfk1gmt" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_008.png" id="42_4emam"]
+[ext_resource type="Texture2D" uid="uid://bb10rdn1j3yr3" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_009.png" id="43_dkbra"]
+[ext_resource type="Texture2D" uid="uid://b2ldgbd3oy3l5" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_010.png" id="44_guvkj"]
+[ext_resource type="Texture2D" uid="uid://nbua3wnnhgfe" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_011.png" id="45_rlhwk"]
+[ext_resource type="Texture2D" uid="uid://471e85dr4jgw" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_012.png" id="46_pi8t8"]
+[ext_resource type="Texture2D" uid="uid://bhg506tcsjj0e" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_013.png" id="47_vxird"]
+[ext_resource type="Texture2D" uid="uid://mnvwuiyw1ura" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_014.png" id="48_pq64w"]
+[ext_resource type="Texture2D" uid="uid://cf7y3u02q6ay3" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_015.png" id="49_rq1ej"]
+[ext_resource type="Texture2D" uid="uid://5cj4dmpcje7m" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_016.png" id="50_wfrtb"]
+[ext_resource type="Texture2D" uid="uid://6h556gka6a34" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle/0_Fallen_Angels_Idle_017.png" id="51_s2esy"]
+[ext_resource type="Texture2D" uid="uid://coh22hrq4sx81" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_000.png" id="52_j2cpg"]
+[ext_resource type="Texture2D" uid="uid://dsfxhmgi41hfd" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_001.png" id="53_v2cti"]
+[ext_resource type="Texture2D" uid="uid://d3ysrpgc8oxt1" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_002.png" id="54_yi6vu"]
+[ext_resource type="Texture2D" uid="uid://1wvecwgswmx" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_003.png" id="55_vubou"]
+[ext_resource type="Texture2D" uid="uid://b70txqg12p7p4" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_004.png" id="56_0keum"]
+[ext_resource type="Texture2D" uid="uid://bxycd8bc4r580" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_005.png" id="57_x1rno"]
+[ext_resource type="Texture2D" uid="uid://dbrwshy13eyre" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_006.png" id="58_y7knb"]
+[ext_resource type="Texture2D" uid="uid://dxypgskfvh0v" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_007.png" id="59_cxtrd"]
+[ext_resource type="Texture2D" uid="uid://cy4fv5mo3ry2c" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_008.png" id="60_suir7"]
+[ext_resource type="Texture2D" uid="uid://bfwgjp4e1ym4" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_009.png" id="61_1xfpa"]
+[ext_resource type="Texture2D" uid="uid://dmlbbo0q5bfcj" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_010.png" id="62_gwffo"]
+[ext_resource type="Texture2D" uid="uid://byh1mrq2jhoq2" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_011.png" id="63_88eiy"]
+[ext_resource type="Texture2D" uid="uid://icnrevnenu8h" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_012.png" id="64_me5gi"]
+[ext_resource type="Texture2D" uid="uid://cl6cyc7bcbeb1" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_013.png" id="65_obggg"]
+[ext_resource type="Texture2D" uid="uid://btmtcxoxpscb8" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_014.png" id="66_hpqrt"]
+[ext_resource type="Texture2D" uid="uid://bjgo2vbb2jgml" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_015.png" id="67_y7b15"]
+[ext_resource type="Texture2D" uid="uid://db4axtehfdeby" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_016.png" id="68_t32wg"]
+[ext_resource type="Texture2D" uid="uid://xixthged3cg7" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Idle Blinking/0_Fallen_Angels_Idle Blinking_017.png" id="69_wm2q3"]
+[ext_resource type="Texture2D" uid="uid://cacal0wlf8isk" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Loop/0_Fallen_Angels_Jump Loop_000.png" id="70_3jceu"]
+[ext_resource type="Texture2D" uid="uid://cbftb2l6l6cye" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Loop/0_Fallen_Angels_Jump Loop_001.png" id="71_3unm1"]
+[ext_resource type="Texture2D" uid="uid://b0x6rolq6q3gi" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Loop/0_Fallen_Angels_Jump Loop_002.png" id="72_hvvu6"]
+[ext_resource type="Texture2D" uid="uid://clpp8xwh40xvr" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Loop/0_Fallen_Angels_Jump Loop_003.png" id="73_mhmyr"]
+[ext_resource type="Texture2D" uid="uid://8y3i4wg8ac8a" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Loop/0_Fallen_Angels_Jump Loop_004.png" id="74_spxmq"]
+[ext_resource type="Texture2D" uid="uid://468ca47isbqn" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Loop/0_Fallen_Angels_Jump Loop_005.png" id="75_lsil7"]
+[ext_resource type="Texture2D" uid="uid://ddnkwymdy4uom" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Start/0_Fallen_Angels_Jump Start_000.png" id="76_2e1ou"]
+[ext_resource type="Texture2D" uid="uid://dtmfpwlbykne7" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Start/0_Fallen_Angels_Jump Start_001.png" id="77_qdeg5"]
+[ext_resource type="Texture2D" uid="uid://77yf5qdwy2a6" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Start/0_Fallen_Angels_Jump Start_002.png" id="78_xhgj0"]
+[ext_resource type="Texture2D" uid="uid://do42dic4nn6me" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Start/0_Fallen_Angels_Jump Start_003.png" id="79_1fjrd"]
+[ext_resource type="Texture2D" uid="uid://dd3b71lu4doji" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Start/0_Fallen_Angels_Jump Start_004.png" id="80_rufr1"]
+[ext_resource type="Texture2D" uid="uid://dkxxaqa1gyfok" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Jump Start/0_Fallen_Angels_Jump Start_005.png" id="81_fwq0w"]
+[ext_resource type="Texture2D" uid="uid://dx8xufobcm8l8" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_000.png" id="82_12vnu"]
+[ext_resource type="Texture2D" uid="uid://dwnvvvvigphhk" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_001.png" id="83_0bupi"]
+[ext_resource type="Texture2D" uid="uid://ctmrs0dpso5t8" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_002.png" id="84_dgiyx"]
+[ext_resource type="Texture2D" uid="uid://rkg41q8wl1h7" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_003.png" id="85_davyc"]
+[ext_resource type="Texture2D" uid="uid://ds4s1habpnumb" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_004.png" id="86_dxage"]
+[ext_resource type="Texture2D" uid="uid://csvv0oy8qckyh" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_005.png" id="87_o6src"]
+[ext_resource type="Texture2D" uid="uid://bm8ttbjn8ejkr" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_006.png" id="88_l7lrx"]
+[ext_resource type="Texture2D" uid="uid://byyt2stmh8g05" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_007.png" id="89_mie3x"]
+[ext_resource type="Texture2D" uid="uid://c0b2huxqrmqhs" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_008.png" id="90_a42r1"]
+[ext_resource type="Texture2D" uid="uid://by4ajpnovf16t" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_009.png" id="91_l1xrv"]
+[ext_resource type="Texture2D" uid="uid://buj8will4po6q" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_010.png" id="92_ldldf"]
+[ext_resource type="Texture2D" uid="uid://sifmgmgryijo" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Kicking/0_Fallen_Angels_Kicking_011.png" id="93_potf2"]
+[ext_resource type="Texture2D" uid="uid://d2rv3f4j7dcat" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_000.png" id="94_5rjoo"]
+[ext_resource type="Texture2D" uid="uid://dc2d4q50nneap" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_001.png" id="95_u1hbe"]
+[ext_resource type="Texture2D" uid="uid://b2g5cwk5eqwfp" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_002.png" id="96_iqsau"]
+[ext_resource type="Texture2D" uid="uid://c5fthb8ukhmin" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_003.png" id="97_mlwgl"]
+[ext_resource type="Texture2D" uid="uid://bxindgr8vnyqr" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_004.png" id="98_4py25"]
+[ext_resource type="Texture2D" uid="uid://bem8s76expq6b" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_005.png" id="99_nikqe"]
+[ext_resource type="Texture2D" uid="uid://bkar0erqnhf3c" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_006.png" id="100_rxt7k"]
+[ext_resource type="Texture2D" uid="uid://dfth8ckdvoukb" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_007.png" id="101_lnn8g"]
+[ext_resource type="Texture2D" uid="uid://uydppnwlf8wp" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_008.png" id="102_5vguw"]
+[ext_resource type="Texture2D" uid="uid://dlynxcfae03yb" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_009.png" id="103_maa6y"]
+[ext_resource type="Texture2D" uid="uid://c2bacc3c28vf0" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_010.png" id="104_pgamc"]
+[ext_resource type="Texture2D" uid="uid://dvche4smjq4vf" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Slashing/0_Fallen_Angels_Run Slashing_011.png" id="105_igp7t"]
+[ext_resource type="Texture2D" uid="uid://b2otwgwmfucu4" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_000.png" id="106_crlit"]
+[ext_resource type="Texture2D" uid="uid://d2pkkprgjib3m" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_001.png" id="107_30f1n"]
+[ext_resource type="Texture2D" uid="uid://cexux7jacay57" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_002.png" id="108_e3axp"]
+[ext_resource type="Texture2D" uid="uid://clnlmvp8ppo2e" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_003.png" id="109_11ucs"]
+[ext_resource type="Texture2D" uid="uid://bc3egvd08erw7" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_004.png" id="110_uyt7w"]
+[ext_resource type="Texture2D" uid="uid://co7fb6d1n02jp" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_005.png" id="111_0frrm"]
+[ext_resource type="Texture2D" uid="uid://5tp8v52p5sso" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_006.png" id="112_pjxrc"]
+[ext_resource type="Texture2D" uid="uid://dh4esiq1dqag6" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_007.png" id="113_0qrrv"]
+[ext_resource type="Texture2D" uid="uid://b5wq4nimbhmag" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_008.png" id="114_tvvi5"]
+[ext_resource type="Texture2D" uid="uid://d26ee742nqn3f" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_009.png" id="115_1eo7v"]
+[ext_resource type="Texture2D" uid="uid://bg7makg586thc" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_010.png" id="116_16gf8"]
+[ext_resource type="Texture2D" uid="uid://cthig4k26h27j" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Run Throwing/0_Fallen_Angels_Run Throwing_011.png" id="117_o6pex"]
+[ext_resource type="Texture2D" uid="uid://bttof52a4uka3" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_000.png" id="118_68xji"]
+[ext_resource type="Texture2D" uid="uid://bqbdo4wweg474" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_001.png" id="119_j0kfn"]
+[ext_resource type="Texture2D" uid="uid://n6rhlors0qhv" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_002.png" id="120_r5f5i"]
+[ext_resource type="Texture2D" uid="uid://cy8ns5vnis623" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_003.png" id="121_65358"]
+[ext_resource type="Texture2D" uid="uid://cqh0iec7jx26k" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_004.png" id="122_xyl21"]
+[ext_resource type="Texture2D" uid="uid://cajfkd3330588" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_005.png" id="123_i6p5n"]
+[ext_resource type="Texture2D" uid="uid://bj1oie3h42xn" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_006.png" id="124_w1nbw"]
+[ext_resource type="Texture2D" uid="uid://dscrsc64vaabu" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_007.png" id="125_12c35"]
+[ext_resource type="Texture2D" uid="uid://cjr8njhilxvbf" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_008.png" id="126_8qar8"]
+[ext_resource type="Texture2D" uid="uid://bj0fjvirgs8np" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_009.png" id="127_af0ob"]
+[ext_resource type="Texture2D" uid="uid://bg3sh2dvopaxs" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_010.png" id="128_lj1ps"]
+[ext_resource type="Texture2D" uid="uid://r2mrs2mmqqib" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Running/0_Fallen_Angels_Running_011.png" id="129_hawe5"]
+[ext_resource type="Texture2D" uid="uid://d6opseb6nkbe" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_000.png" id="130_wvpqa"]
+[ext_resource type="Texture2D" uid="uid://vr761ggxe8y2" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_001.png" id="131_mtpfg"]
+[ext_resource type="Texture2D" uid="uid://b2hanpuf6lm5i" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_002.png" id="132_5h2fc"]
+[ext_resource type="Texture2D" uid="uid://cjxg63s4blikx" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_003.png" id="133_lt1h2"]
+[ext_resource type="Texture2D" uid="uid://bvdvis3q7npkk" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_004.png" id="134_d61be"]
+[ext_resource type="Texture2D" uid="uid://4ca5mba3ffh8" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_005.png" id="135_b5yav"]
+[ext_resource type="Texture2D" uid="uid://d2j74qqcr1s7a" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_006.png" id="136_p4rt6"]
+[ext_resource type="Texture2D" uid="uid://dpumm2qyvsuqw" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_007.png" id="137_rvbsp"]
+[ext_resource type="Texture2D" uid="uid://bd23sdlghkj0s" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_008.png" id="138_ym4jb"]
+[ext_resource type="Texture2D" uid="uid://cikk2uo2ebbww" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_009.png" id="139_bl7k6"]
+[ext_resource type="Texture2D" uid="uid://c2dhqqpkon3k1" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_010.png" id="140_xb8a3"]
+[ext_resource type="Texture2D" uid="uid://dxeth66ovv0r7" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing/0_Fallen_Angels_Slashing_011.png" id="141_elrwd"]
+[ext_resource type="Texture2D" uid="uid://bsi3khntoc2w0" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_000.png" id="142_57med"]
+[ext_resource type="Texture2D" uid="uid://ps3yflvgl7cb" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_001.png" id="143_arlaw"]
+[ext_resource type="Texture2D" uid="uid://jcagwvi0fjgg" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_002.png" id="144_up51m"]
+[ext_resource type="Texture2D" uid="uid://cs1o3ucvyj84q" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_003.png" id="145_e715j"]
+[ext_resource type="Texture2D" uid="uid://tl6cbhivaf15" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_004.png" id="146_sdg20"]
+[ext_resource type="Texture2D" uid="uid://drkfanxgbhby2" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_005.png" id="147_emxw2"]
+[ext_resource type="Texture2D" uid="uid://loshly5q1x6n" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_006.png" id="148_im2m5"]
+[ext_resource type="Texture2D" uid="uid://dmhy0xqbwx2nd" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_007.png" id="149_547yx"]
+[ext_resource type="Texture2D" uid="uid://slmrq3puhemr" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_008.png" id="150_kyw7g"]
+[ext_resource type="Texture2D" uid="uid://btvicwj04p1uk" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_009.png" id="151_juvk3"]
+[ext_resource type="Texture2D" uid="uid://bthf5bfajfhej" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_010.png" id="152_sde3t"]
+[ext_resource type="Texture2D" uid="uid://iwlh0iniy2xs" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Slashing in The Air/0_Fallen_Angels_Slashing in The Air_011.png" id="153_5qcj0"]
+[ext_resource type="Texture2D" uid="uid://p31n32msnvb1" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Sliding/0_Fallen_Angels_Sliding_000.png" id="154_nxvym"]
+[ext_resource type="Texture2D" uid="uid://dum7tno6fuxkb" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Sliding/0_Fallen_Angels_Sliding_001.png" id="155_kkvlk"]
+[ext_resource type="Texture2D" uid="uid://cba4n07838ivt" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Sliding/0_Fallen_Angels_Sliding_002.png" id="156_8n0wd"]
+[ext_resource type="Texture2D" uid="uid://bbcj6wdxb2ttr" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Sliding/0_Fallen_Angels_Sliding_003.png" id="157_4shk8"]
+[ext_resource type="Texture2D" uid="uid://daoi30cq53xgk" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Sliding/0_Fallen_Angels_Sliding_004.png" id="158_j8tlu"]
+[ext_resource type="Texture2D" uid="uid://qgdxkbg3cuio" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Sliding/0_Fallen_Angels_Sliding_005.png" id="159_te56j"]
+[ext_resource type="Texture2D" uid="uid://if1fq0aax34q" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_000.png" id="160_qne67"]
+[ext_resource type="Texture2D" uid="uid://25hc1x1oja0l" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_001.png" id="161_r6ny4"]
+[ext_resource type="Texture2D" uid="uid://b5dy4n5ycwye2" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_002.png" id="162_gx3ap"]
+[ext_resource type="Texture2D" uid="uid://bsw5odxj5m7dv" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_003.png" id="163_suw7r"]
+[ext_resource type="Texture2D" uid="uid://br3cortjpfv46" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_004.png" id="164_nmsqd"]
+[ext_resource type="Texture2D" uid="uid://cgkfnjtw06ggm" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_005.png" id="165_dttol"]
+[ext_resource type="Texture2D" uid="uid://c5x4ivfhpvq4n" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_006.png" id="166_iei34"]
+[ext_resource type="Texture2D" uid="uid://x54a7xqsnpps" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_007.png" id="167_7b8ds"]
+[ext_resource type="Texture2D" uid="uid://bd0h0j7obh85j" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_008.png" id="168_d3yq2"]
+[ext_resource type="Texture2D" uid="uid://dc5o2fkwn837f" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_009.png" id="169_ivl5n"]
+[ext_resource type="Texture2D" uid="uid://045bu5vq55dx" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_010.png" id="170_mw8id"]
+[ext_resource type="Texture2D" uid="uid://bjgruvkpmlu1s" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Throwing/0_Fallen_Angels_Throwing_011.png" id="171_jwvj4"]
+[ext_resource type="Texture2D" uid="uid://cpkbr088ex03o" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_000.png" id="172_by20x"]
+[ext_resource type="Texture2D" uid="uid://btlpdd26abha3" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_001.png" id="173_wj30q"]
+[ext_resource type="Texture2D" uid="uid://be27x515qtidy" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_002.png" id="174_7lnuw"]
+[ext_resource type="Texture2D" uid="uid://b7n7way5i3t2t" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_003.png" id="175_k6uj2"]
+[ext_resource type="Texture2D" uid="uid://3riv1ujqk02j" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_004.png" id="176_euvfp"]
+[ext_resource type="Texture2D" uid="uid://bp5pmonrwrv7u" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_005.png" id="177_fio6y"]
+[ext_resource type="Texture2D" uid="uid://ctbftjjw07vpi" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_006.png" id="178_de47f"]
+[ext_resource type="Texture2D" uid="uid://b1cnaxefso0ym" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_007.png" id="179_4pw2r"]
+[ext_resource type="Texture2D" uid="uid://j0ypgjekcm2u" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_008.png" id="180_kfn13"]
+[ext_resource type="Texture2D" uid="uid://bwpme1f6b6p1h" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_009.png" id="181_y5nna"]
+[ext_resource type="Texture2D" uid="uid://b7dvexqsu40b0" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_010.png" id="182_cjysd"]
+[ext_resource type="Texture2D" uid="uid://ccwxppbiqauxd" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_011.png" id="183_ime2w"]
+[ext_resource type="Texture2D" uid="uid://d3adjsww2rsi" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_012.png" id="184_a8hi7"]
+[ext_resource type="Texture2D" uid="uid://bnw7kuwfmgmfc" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_013.png" id="185_4v1xe"]
+[ext_resource type="Texture2D" uid="uid://0nqbnv7nq5j7" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_014.png" id="186_vgplx"]
+[ext_resource type="Texture2D" uid="uid://bgg4n8030ob3v" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_015.png" id="187_17naq"]
+[ext_resource type="Texture2D" uid="uid://45dnrvsuperw" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_016.png" id="188_sf5yn"]
+[ext_resource type="Texture2D" uid="uid://cebw7e8xma4u" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_017.png" id="189_mbaf8"]
+[ext_resource type="Texture2D" uid="uid://c28cit7y2pcv2" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_018.png" id="190_6xtbh"]
+[ext_resource type="Texture2D" uid="uid://chllif348eqog" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_019.png" id="191_8k3o0"]
+[ext_resource type="Texture2D" uid="uid://sq0mmylynios" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_020.png" id="192_xxgg7"]
+[ext_resource type="Texture2D" uid="uid://cew6krc4x8g5t" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_021.png" id="193_qrlfb"]
+[ext_resource type="Texture2D" uid="uid://dr7vo02l5e0v8" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_022.png" id="194_wx31a"]
+[ext_resource type="Texture2D" uid="uid://cxxpt54ilfsj4" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Walking/0_Fallen_Angels_Walking_023.png" id="195_te5lu"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7qxpp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_eho2d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_tgjvq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hqjbc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_te4fj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_sbdi4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_xbunv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_xwpm4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_eg58e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_lqg8d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_mtck7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_v4ayx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_yjksk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_hfqoh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_dgtww")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_ijmns")
+}],
+"loop": true,
+"name": &"dying",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_glggr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_rc5cs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_lk0pi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_u08xl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_6tibp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_k36q6")
+}],
+"loop": true,
+"name": &"falling_down",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("22_j5ogq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_kc7ar")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_xxe1a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_ki20c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_2fyt3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_luwac")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_qng0e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_q6bhh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_etoxe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_ffa6h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_e28q5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_1ywx8")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("34_ojo1d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_5bk4p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_wgme3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_rbhp6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_bq8su")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_q5ikf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_fkbj0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_jc7gi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_4emam")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_dkbra")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_guvkj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_rlhwk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_pi8t8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_vxird")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_pq64w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_rq1ej")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_wfrtb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_s2esy")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("52_j2cpg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_v2cti")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_yi6vu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_vubou")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_0keum")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_x1rno")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_y7knb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_cxtrd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_suir7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_1xfpa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_gwffo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_88eiy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_me5gi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("65_obggg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("66_hpqrt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("67_y7b15")
+}, {
+"duration": 1.0,
+"texture": ExtResource("68_t32wg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("69_wm2q3")
+}],
+"loop": true,
+"name": &"idle_blinking",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("70_3jceu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("71_3unm1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("72_hvvu6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("73_mhmyr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("74_spxmq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("75_lsil7")
+}],
+"loop": true,
+"name": &"jump_loop",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("76_2e1ou")
+}, {
+"duration": 1.0,
+"texture": ExtResource("77_qdeg5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("78_xhgj0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("79_1fjrd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("80_rufr1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("81_fwq0w")
+}],
+"loop": true,
+"name": &"jump_start",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("82_12vnu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("83_0bupi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("84_dgiyx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("85_davyc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("86_dxage")
+}, {
+"duration": 1.0,
+"texture": ExtResource("87_o6src")
+}, {
+"duration": 1.0,
+"texture": ExtResource("88_l7lrx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("89_mie3x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("90_a42r1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("91_l1xrv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("92_ldldf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("93_potf2")
+}],
+"loop": true,
+"name": &"kicking",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("94_5rjoo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("95_u1hbe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("96_iqsau")
+}, {
+"duration": 1.0,
+"texture": ExtResource("97_mlwgl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("98_4py25")
+}, {
+"duration": 1.0,
+"texture": ExtResource("99_nikqe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("100_rxt7k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("101_lnn8g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("102_5vguw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("103_maa6y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("104_pgamc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("105_igp7t")
+}],
+"loop": true,
+"name": &"run_slashing",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("106_crlit")
+}, {
+"duration": 1.0,
+"texture": ExtResource("107_30f1n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("108_e3axp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("109_11ucs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("110_uyt7w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("111_0frrm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("112_pjxrc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("113_0qrrv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("114_tvvi5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("115_1eo7v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("116_16gf8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("117_o6pex")
+}],
+"loop": true,
+"name": &"run_throwing",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("118_68xji")
+}, {
+"duration": 1.0,
+"texture": ExtResource("119_j0kfn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("120_r5f5i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("121_65358")
+}, {
+"duration": 1.0,
+"texture": ExtResource("122_xyl21")
+}, {
+"duration": 1.0,
+"texture": ExtResource("123_i6p5n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("124_w1nbw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("125_12c35")
+}, {
+"duration": 1.0,
+"texture": ExtResource("126_8qar8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("127_af0ob")
+}, {
+"duration": 1.0,
+"texture": ExtResource("128_lj1ps")
+}, {
+"duration": 1.0,
+"texture": ExtResource("129_hawe5")
+}],
+"loop": true,
+"name": &"running",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("130_wvpqa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("131_mtpfg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("132_5h2fc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("133_lt1h2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("134_d61be")
+}, {
+"duration": 1.0,
+"texture": ExtResource("135_b5yav")
+}, {
+"duration": 1.0,
+"texture": ExtResource("136_p4rt6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("137_rvbsp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("138_ym4jb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("139_bl7k6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("140_xb8a3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("141_elrwd")
+}],
+"loop": true,
+"name": &"slashing",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("142_57med")
+}, {
+"duration": 1.0,
+"texture": ExtResource("143_arlaw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("144_up51m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("145_e715j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("146_sdg20")
+}, {
+"duration": 1.0,
+"texture": ExtResource("147_emxw2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("148_im2m5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("149_547yx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("150_kyw7g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("151_juvk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("152_sde3t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("153_5qcj0")
+}],
+"loop": true,
+"name": &"slashing_in_the_air",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("154_nxvym")
+}, {
+"duration": 1.0,
+"texture": ExtResource("155_kkvlk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("156_8n0wd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("157_4shk8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("158_j8tlu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("159_te56j")
+}],
+"loop": true,
+"name": &"sliding",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("160_qne67")
+}, {
+"duration": 1.0,
+"texture": ExtResource("161_r6ny4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("162_gx3ap")
+}, {
+"duration": 1.0,
+"texture": ExtResource("163_suw7r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("164_nmsqd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("165_dttol")
+}, {
+"duration": 1.0,
+"texture": ExtResource("166_iei34")
+}, {
+"duration": 1.0,
+"texture": ExtResource("167_7b8ds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("168_d3yq2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("169_ivl5n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("170_mw8id")
+}, {
+"duration": 1.0,
+"texture": ExtResource("171_jwvj4")
+}],
+"loop": true,
+"name": &"throwing",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("172_by20x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("173_wj30q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("174_7lnuw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("175_k6uj2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("176_euvfp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("177_fio6y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("178_de47f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("179_4pw2r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("180_kfn13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("181_y5nna")
+}, {
+"duration": 1.0,
+"texture": ExtResource("182_cjysd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("183_ime2w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("184_a8hi7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("185_4v1xe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("186_vgplx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("187_17naq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("188_sf5yn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("189_mbaf8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("190_6xtbh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("191_8k3o0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("192_xxgg7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("193_qrlfb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("194_wx31a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("195_te5lu")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 24.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0de1t"]
+radius = 28.0
+height = 92.0
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_tgjvq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.147778, 0.147778)
+sprite_frames = SubResource("SpriteFrames_7qxpp")
+animation = &"idle_blinking"
+frame_progress = 0.508891
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_0de1t")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = -100
+limit_top = -200
+limit_right = 2000
+limit_bottom = 800

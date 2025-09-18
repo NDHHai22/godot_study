@@ -1,0 +1,38 @@
+[gd_scene load_steps=3 format=3 uid="uid://bdrav6dov44dp"]
+
+[ext_resource type="Script" uid="uid://cv2q2t8j2tupm" path="res://main.gd" id="1_ig7tw"]
+
+[sub_resource type="GDScript" id="GDScript_0xm2m"]
+script/source = "extends Button
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_ig7tw")
+
+[node name="btnPlay" type="Button" parent="."]
+offset_left = 384.0
+offset_top = 132.0
+offset_right = 795.0
+offset_bottom = 249.0
+text = "Chơi"
+
+[node name="btnQuit" type="Button" parent="."]
+offset_left = 390.0
+offset_top = 348.0
+offset_right = 801.0
+offset_bottom = 465.0
+text = "Thoát"
+script = SubResource("GDScript_0xm2m")
+
+[connection signal="pressed" from="btnPlay" to="." method="_on_btn_play_pressed"]
+[connection signal="pressed" from="btnQuit" to="." method="_on_btn_quit_pressed"]
