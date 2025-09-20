@@ -9055,13 +9055,13 @@ motion_mirroring = Vector2(1150, 0)
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
 texture_filter = 1
 position = Vector2(0, -245)
-scale = Vector2(0.598958, 1.0037)
+scale = Vector2(0.599, 1.004)
 texture = ExtResource("4_036b0")
 centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2(-31, 215)
-motion_scale = Vector2(1.05, 0.95)
+motion_scale = Vector2(0.5, 0.9)
 motion_mirroring = Vector2(300, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
@@ -9081,7 +9081,7 @@ texture = ExtResource("3_dwbse")
 
 [node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
 position = Vector2(-31, 215)
-motion_scale = Vector2(1.05, 0.95)
+motion_scale = Vector2(0.5, 0.9)
 
 [node name="Sprite2D4" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer4"]
 texture_filter = 1

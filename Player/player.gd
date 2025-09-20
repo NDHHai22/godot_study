@@ -21,6 +21,7 @@ const RESPAWN_TIME = 5.0  # Player respawn nhanh hơn bot
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var camera = $Camera2D
+@onready var health_label = $CanvasLayer/Label
 
 # Biến trạng thái
 var is_flying = false
@@ -90,6 +91,10 @@ func _ready():
 	# Thiết lập thời gian chớp mắt đầu tiên
 	randomize()
 	next_blink_time = randf_range(BLINK_INTERVAL_MIN, BLINK_INTERVAL_MAX)
+
+	# Thiết lập health label
+	setup_health_label()
+	update_health_display()
 
 	# Thiết lập camera để theo dõi player
 	setup_camera()
@@ -394,6 +399,9 @@ func take_damage(damage: int, attacker = null):
 	current_health -= damage
 	print("Player nhận ", damage, " damage! Health còn: ", current_health)
 
+	# Cập nhật health display
+	update_health_display()
+
 	# Hiệu ứng visual khi nhận damage
 	if animated_sprite:
 		animated_sprite.modulate = Color.RED
@@ -458,6 +466,9 @@ func respawn():
 	current_health = MAX_HEALTH
 	in_combat = false
 	combat_target = null
+
+	# Cập nhật health display
+	update_health_display()
 
 	# Reset vị trí
 	global_position = spawn_position
@@ -712,3 +723,22 @@ func select_target(bot):
 func set_target_and_auto_attack(bot):
 	select_target(bot)
 	start_auto_attack()
+
+# Health Display Functions
+func setup_health_label():
+	if health_label:
+		# Đặt label ở góc phải trên màn hình
+		health_label.anchor_left = 1.0
+		health_label.anchor_right = 1.0
+		health_label.anchor_top = 0.0
+		health_label.anchor_bottom = 0.0
+		health_label.offset_left = -200
+		health_label.offset_right = -20
+		health_label.offset_top = 20
+		health_label.offset_bottom = 50
+		health_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		health_label.add_theme_font_size_override("font_size", 16)
+
+func update_health_display():
+	if health_label:
+		health_label.text = "Health: " + str(current_health) + "/" + str(MAX_HEALTH)

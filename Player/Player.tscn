@@ -876,7 +876,7 @@ script = ExtResource("1_tgjvq")
 scale = Vector2(0.147778, 0.147778)
 sprite_frames = SubResource("SpriteFrames_7qxpp")
 animation = &"slashing"
-frame_progress = 0.325125
+frame_progress = 0.850352
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_0de1t")
@@ -888,3 +888,16 @@ limit_right = 3000
 limit_bottom = 1000
 limit_smoothed = true
 position_smoothing_enabled = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+metadata/test = 0
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_right = -20.0
+offset_bottom = 30.0
+text = "Health: 100/100"
+horizontal_alignment = 2

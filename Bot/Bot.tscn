@@ -480,7 +480,7 @@ position = Vector2(4, -3)
 scale = Vector2(0.140278, 0.140278)
 sprite_frames = SubResource("SpriteFrames_46ikf")
 animation = &"slashing"
-frame_progress = 0.604266
+frame_progress = 0.413116
 
 [node name="Area2D" type="Area2D" parent="."]
 visible = false
