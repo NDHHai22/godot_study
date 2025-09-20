@@ -132,20 +132,50 @@ Player tự động bay để đứng ngang hàng với bot:
 - **Double click**: Tự động di chuyển 3D đến và tấn công bot
 - **Click area**: Toàn bộ vùng bot (80x100 pixel)
 
-### 8. **Health System & UI**
+### 8. **Auto Combat System**
+Hệ thống combat tự động khi gặp nhau:
+
+**Kích hoạt combat khi:**
+- Player tấn công bot → Bot tự động đánh lại
+- Bot phát hiện player → Tự động đuổi theo và đánh
+- Trong combat → Đánh nhau đến chết
+
+**Combat behavior:**
+- **Bot**: Đuổi theo player xa hơn bình thường (2x detection range)
+- **Player**: Tự động chọn bot làm target và auto attack
+- **Kết thúc**: Khi một bên chết hoặc quá xa
+
+### 9. **Health & Respawn System**
+**Bot Health:**
 - **Health Bar**: Hiển thị trên đầu mỗi bot
   - Xanh lá: > 60% HP
   - Vàng: 30-60% HP
   - Đỏ: < 30% HP
-- **Target Indicator**: Mũi tên đỏ ↓ trên bot được chọn
-- **Death Animation**: Chạy 1 lần rồi bot biến mất
-- **Respawn**: Bot xuất hiện lại tại điểm spawn sau 30 giây
-- **Click Area**: Vùng 80x100 pixel để click chọn bot
+- **Death**: Animation chạy 1 lần rồi biến mất
+- **Respawn**: Xuất hiện lại tại spawn sau 30 giây
+
+**Player Health:**
+- **Health**: 100 HP (không có health bar hiển thị)
+- **Death**: Biến mất và respawn tại điểm ban đầu
+- **Respawn**: Nhanh hơn bot (5 giây)
+- **Visual**: Hiệu ứng đỏ khi nhận damage
+
+### 10. **Combat Stats**
+
+| | Player | Bot |
+|---|---|---|
+| **Health** | 100 HP | 100 HP |
+| **Attack Damage** | 50 | 20 |
+| **Attack Range** | 100px | 80px |
+| **Attack Cooldown** | 0.8s | 1.5s |
+| **Respawn Time** | 5s | 30s |
+| **Combat Range** | 200px | 400px (2x detection) |
 
 ```gdscript
 # Health constants
 const MAX_HEALTH = 100  # Bot và Player
 const RESPAWN_TIME = 30.0  # Bot respawn time
+const RESPAWN_TIME = 5.0   # Player respawn time
 ```
 
 ## Cấu hình Bot

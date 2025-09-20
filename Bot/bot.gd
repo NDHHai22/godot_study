@@ -41,6 +41,11 @@ var patrol_right_bound: float
 var last_attack_time = 0.0
 var state_timer = 0.0
 
+# Combat state variables
+var in_combat = false
+var combat_target = null
+var forced_combat = false  # Khi bị tấn công, bắt buộc combat
+
 # Random movement variables
 var target_position: Vector2
 var current_idle_duration = 0.0
@@ -175,16 +180,28 @@ func find_node_by_type(node: Node, type_name: String, name_contains: String = ""
 func handle_idle_state(_delta):
 	velocity.x = 0
 
+	# Ưu tiên combat nếu đang trong combat
+	if in_combat and combat_target:
+		player_ref = combat_target
+		change_state(BotState.CHASING)
+		return
+
 	# Kiểm tra player trong tầm phát hiện
 	if can_detect_player():
 		change_state(BotState.CHASING)
 		return
 
-	# Chuyển sang patrol sau thời gian idle ngẫu nhiên
-	if state_timer >= current_idle_duration:
+	# Chuyển sang patrol sau thời gian idle ngẫu nhiên (chỉ khi không combat)
+	if not forced_combat and state_timer >= current_idle_duration:
 		change_state(BotState.PATROLLING)
 
 func handle_patrol_state(_delta):
+	# Ưu tiên combat nếu đang trong combat
+	if in_combat and combat_target:
+		player_ref = combat_target
+		change_state(BotState.CHASING)
+		return
+
 	# Kiểm tra player trong tầm phát hiện
 	if can_detect_player():
 		change_state(BotState.CHASING)
@@ -212,25 +229,39 @@ func handle_patrol_state(_delta):
 
 func handle_chase_state(_delta):
 	if not player_ref:
-		change_state(BotState.RETURNING)
+		if not in_combat:
+			change_state(BotState.RETURNING)
 		return
 
 	var distance_to_player = global_position.distance_to(player_ref.global_position)
 
-	# Kiểm tra nếu player quá xa spawn point
-	var distance_to_spawn = global_position.distance_to(spawn_position)
-	if distance_to_spawn > RETURN_THRESHOLD:
-		change_state(BotState.RETURNING)
-		return
+	# Trong combat mode - không bỏ cuộc dễ dàng
+	if in_combat and combat_target:
+		# Chỉ dừng combat nếu target chết hoặc quá xa
+		if combat_target.has_method("is_dead") and combat_target.is_dead:
+			end_combat()
+			change_state(BotState.RETURNING)
+			return
+		elif distance_to_player > DETECTION_RANGE * 2.0:  # Cho phép đuổi xa hơn trong combat
+			end_combat()
+			change_state(BotState.RETURNING)
+			return
+	else:
+		# Logic bình thường khi không combat
+		# Kiểm tra nếu player quá xa spawn point
+		var distance_to_spawn = global_position.distance_to(spawn_position)
+		if distance_to_spawn > RETURN_THRESHOLD:
+			change_state(BotState.RETURNING)
+			return
+
+		# Kiểm tra nếu player ra khỏi tầm phát hiện
+		if distance_to_player > DETECTION_RANGE:
+			change_state(BotState.RETURNING)
+			return
 
 	# Kiểm tra nếu player trong tầm tấn công
 	if distance_to_player <= ATTACK_RANGE:
 		change_state(BotState.ATTACKING)
-		return
-
-	# Kiểm tra nếu player ra khỏi tầm phát hiện
-	if distance_to_player > DETECTION_RANGE:
-		change_state(BotState.RETURNING)
 		return
 
 	# Di chuyển về phía player
@@ -292,9 +323,9 @@ func can_detect_player() -> bool:
 func perform_attack():
 	print("Bot attacks player!")
 
-	# Có thể thêm damage cho player ở đây
+	# Tấn công player và truyền self làm attacker
 	if player_ref and player_ref.has_method("take_damage"):
-		player_ref.take_damage(ATTACK_DAMAGE)
+		player_ref.take_damage(ATTACK_DAMAGE, self)
 
 func update_animation_and_direction():
 	if not animated_sprite:
@@ -371,7 +402,7 @@ func generate_random_target():
 	print("Bot tạo target mới tại: ", target_position)
 
 # Health system methods
-func take_damage(damage: int):
+func take_damage(damage: int, attacker = null):
 	if current_state == BotState.DEAD:
 		return
 
@@ -381,6 +412,14 @@ func take_damage(damage: int):
 
 	# Cập nhật health bar
 	update_health_bar()
+
+	# Hiệu ứng visual khi nhận damage
+	modulate = Color.RED
+	create_tween().tween_property(self, "modulate", Color.WHITE, 0.2)
+
+	# Bắt đầu combat với attacker
+	if attacker and not in_combat:
+		start_combat(attacker)
 
 	# Hiệu ứng nhận damage
 	if animated_sprite:
@@ -393,10 +432,13 @@ func take_damage(damage: int):
 		die()
 
 func die():
-	print("Bot đã chết!")
+	print("💀 Bot đã chết!")
 	current_state = BotState.DEAD
 	current_health = 0
 	velocity = Vector2.ZERO
+
+	# Kết thúc combat
+	end_combat()
 
 	# Tắt collision để player có thể đi qua
 	if collision_shape:
@@ -523,6 +565,32 @@ func notify_player_click():
 		var player = players[0]
 		if player.has_method("on_bot_clicked"):
 			player.on_bot_clicked(self)
+
+# Combat system methods
+func start_combat(target):
+	if current_state == BotState.DEAD or not target:
+		return
+
+	in_combat = true
+	combat_target = target
+	forced_combat = true
+
+	# Chuyển sang chế độ đuổi theo và tấn công target
+	player_ref = target
+	change_state(BotState.CHASING)
+
+	print("⚔️ Bot bắt đầu combat với ", target.name)
+
+func end_combat():
+	in_combat = false
+	combat_target = null
+	forced_combat = false
+	print("🛡️ Bot kết thúc combat")
+
+func is_in_combat_range(target) -> bool:
+	if not target or current_state == BotState.DEAD:
+		return false
+	return global_position.distance_to(target.global_position) <= DETECTION_RANGE
 
 func handle_respawn_state(_delta):
 	# Chờ respawn timer

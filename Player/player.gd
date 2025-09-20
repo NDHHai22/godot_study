@@ -17,6 +17,7 @@ const ATTACK_DAMAGE = 50
 const ATTACK_RANGE = 100.0
 const ATTACK_COOLDOWN = 0.8
 const MAX_HEALTH = 100
+const RESPAWN_TIME = 5.0  # Player respawn nhanh hơn bot
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var camera = $Camera2D
@@ -34,6 +35,13 @@ var current_health = MAX_HEALTH
 var is_attacking = false
 var attack_timer = 0.0
 var can_attack = true
+var is_dead = false
+var spawn_position: Vector2
+var respawn_timer: Timer
+
+# Combat state variables
+var in_combat = false
+var combat_target = null
 
 # Target system variables
 var selected_target = null
@@ -60,6 +68,18 @@ var camera_offset = Vector2.ZERO  # Offset cho camera nếu cần
 func _ready():
 	# Thêm player vào group để bot có thể phát hiện
 	add_to_group("player")
+
+	# Lưu vị trí spawn
+	spawn_position = global_position
+
+	# Tạo respawn timer
+	respawn_timer = Timer.new()
+	respawn_timer.wait_time = RESPAWN_TIME
+	respawn_timer.one_shot = true
+	respawn_timer.timeout.connect(_on_respawn_timer_timeout)
+	add_child(respawn_timer)
+
+	print("Player spawn position: ", spawn_position)
 
 	# Thiết lập collision layers - Player ở layer 2, không va chạm với bot (layer 3)
 	collision_layer = 2  # Layer 2 (bit 1)
@@ -343,7 +363,7 @@ func perform_attack():
 		var distance_to_target = global_position.distance_to(selected_target.global_position)
 		if distance_to_target <= ATTACK_RANGE:
 			if selected_target.has_method("take_damage"):
-				selected_target.take_damage(ATTACK_DAMAGE)
+				selected_target.take_damage(ATTACK_DAMAGE, self)  # Truyền self làm attacker
 				print("Đánh trúng target!")
 				return
 
@@ -351,7 +371,7 @@ func perform_attack():
 	var bots_in_range = find_bots_in_attack_range()
 	for bot in bots_in_range:
 		if bot.has_method("take_damage"):
-			bot.take_damage(ATTACK_DAMAGE)
+			bot.take_damage(ATTACK_DAMAGE, self)  # Truyền self làm attacker
 			print("Đánh trúng bot!")
 			break  # Chỉ đánh một con
 
@@ -367,24 +387,96 @@ func find_bots_in_attack_range() -> Array:
 	return bots
 
 # Hàm nhận damage từ bot
-func take_damage(damage: int):
-	current_health -= damage
-	print("Player nhận ", damage, " damage từ bot! Health còn: ", current_health)
+func take_damage(damage: int, attacker = null):
+	if is_dead:
+		return
 
-	# Hiệu ứng nhận damage
+	current_health -= damage
+	print("Player nhận ", damage, " damage! Health còn: ", current_health)
+
+	# Hiệu ứng visual khi nhận damage
 	if animated_sprite:
 		animated_sprite.modulate = Color.RED
 		var tween = create_tween()
 		tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.2)
 
+	# Bắt đầu combat với attacker
+	if attacker and not in_combat:
+		start_combat(attacker)
+
+	# Kiểm tra chết
 	if current_health <= 0:
 		die()
 
 func die():
-	print("Player đã chết!")
+	if is_dead:
+		return
+
+	is_dead = true
+	in_combat = false
+	combat_target = null
+
+	print("💀 Player đã chết! Respawn sau ", RESPAWN_TIME, " giây...")
+
 	# Dừng auto attack khi chết
 	stop_auto_attack()
-	# Có thể thêm logic respawn cho player ở đây
+
+	# Ẩn player
+	visible = false
+	set_physics_process(false)
+
+	# Bắt đầu respawn timer
+	respawn_timer.start()
+
+func _on_respawn_timer_timeout():
+	respawn()
+
+func respawn():
+	print("🔄 Player respawn tại spawn point!")
+
+	# Reset trạng thái
+	is_dead = false
+	current_health = MAX_HEALTH
+	in_combat = false
+	combat_target = null
+
+	# Reset vị trí
+	global_position = spawn_position
+	velocity = Vector2.ZERO
+
+	# Hiện player
+	visible = true
+	set_physics_process(true)
+
+	# Reset animation
+	animated_sprite.play("idle")
+
+# Combat system methods
+func start_combat(target):
+	if is_dead or not target:
+		return
+
+	in_combat = true
+	combat_target = target
+
+	# Dừng auto attack hiện tại và chuyển sang combat mode
+	stop_auto_attack()
+
+	# Set target và bắt đầu auto attack
+	select_target(target)
+	start_auto_attack()
+
+	print("⚔️ Player bắt đầu combat với ", target.name)
+
+func end_combat():
+	in_combat = false
+	combat_target = null
+	print("🛡️ Player kết thúc combat")
+
+func is_in_combat_range(target) -> bool:
+	if not target or is_dead:
+		return false
+	return global_position.distance_to(target.global_position) <= ATTACK_RANGE * 2.0
 
 # Target system methods
 func select_nearest_target():
