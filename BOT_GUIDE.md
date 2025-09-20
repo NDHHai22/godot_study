@@ -4,9 +4,11 @@
 
 Bot được tạo với hệ thống AI state machine và combat system có các tính năng sau:
 
-### 1. **Tự động di chuyển (Patrol)**
-- Bot sẽ tự động di chuyển qua lại trong khoảng 300 pixel từ vị trí spawn
-- Khi đến biên, bot sẽ dừng lại một chút rồi đổi hướng
+### 1. **Di chuyển ngẫu nhiên (Random Movement)**
+- Bot sẽ di chuyển ngẫu nhiên trong khoảng 300 pixel từ vị trí spawn
+- Chọn điểm đích ngẫu nhiên và di chuyển đến đó
+- Thời gian đứng yên: 1-4 giây (ngẫu nhiên)
+- Thời gian di chuyển: 2-5 giây (ngẫu nhiên)
 - Animation "walking" khi di chuyển, "idle" khi đứng yên
 
 ### 2. **Phát hiện Player**
@@ -121,26 +123,42 @@ Có thể điều chỉnh các thông số trong `Bot/bot.gd`:
 
 ```gdscript
 # Tốc độ
-const PATROL_SPEED = 50.0      # Tốc độ patrol
+const PATROL_SPEED = 50.0      # Tốc độ di chuyển ngẫu nhiên
 const CHASE_SPEED = 120.0      # Tốc độ đuổi theo
 
 # Khoảng cách
 const ATTACK_RANGE = 80.0      # Tầm tấn công
 const DETECTION_RANGE = 200.0  # Tầm phát hiện
-const PATROL_RANGE = 300.0     # Khoảng cách patrol
+const PATROL_RANGE = 300.0     # Khoảng di chuyển ngẫu nhiên
 const RETURN_THRESHOLD = 400.0 # Khoảng cách tối đa từ spawn
+
+# Di chuyển ngẫu nhiên
+const MIN_IDLE_TIME = 1.0      # Thời gian đứng yên tối thiểu
+const MAX_IDLE_TIME = 4.0      # Thời gian đứng yên tối đa
+const MIN_MOVE_TIME = 2.0      # Thời gian di chuyển tối thiểu
+const MAX_MOVE_TIME = 5.0      # Thời gian di chuyển tối đa
 
 # Tấn công
 const ATTACK_DAMAGE = 20       # Damage mỗi lần tấn công
 const ATTACK_COOLDOWN = 1.5    # Thời gian cooldown
 ```
 
+## Random Movement System
+
+Bot sử dụng hệ thống di chuyển ngẫu nhiên thông minh:
+
+1. **Idle Phase**: Bot đứng yên 1-4 giây
+2. **Target Selection**: Chọn điểm đích ngẫu nhiên trong khoảng 300px
+3. **Movement Phase**: Di chuyển đến target trong 2-5 giây
+4. **Arrival Check**: Dừng khi đến gần target (20px) hoặc hết thời gian
+5. **Repeat**: Quay lại phase Idle
+
 ## Animation
 
 Bot sử dụng các animation sau:
-- **"idle"**: Khi đứng yên
-- **"walking"**: Khi di chuyển (patrol, chase, return)
-- **"dying"**: Tạm thời dùng làm animation tấn công
+- **"idle"**: Khi đứng yên hoặc đã đến target
+- **"walking"**: Khi di chuyển đến target (chase, return)
+- **"dying"**: Animation chết và tấn công
 
 ## Debug
 

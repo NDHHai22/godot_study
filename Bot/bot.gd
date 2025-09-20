@@ -21,6 +21,13 @@ const ATTACK_DAMAGE = 20
 const ATTACK_COOLDOWN = 1.5
 const RETURN_THRESHOLD = 400.0  # Khoảng cách tối đa từ vị trí spawn trước khi quay về
 
+# Random movement constants
+const MIN_IDLE_TIME = 1.0  # Thời gian đứng yên tối thiểu
+const MAX_IDLE_TIME = 4.0  # Thời gian đứng yên tối đa
+const MIN_MOVE_TIME = 2.0  # Thời gian di chuyển tối thiểu
+const MAX_MOVE_TIME = 5.0  # Thời gian di chuyển tối đa
+const ARRIVAL_THRESHOLD = 20.0  # Khoảng cách coi như đã đến đích
+
 # Health system constants
 const MAX_HEALTH = 100
 const RESPAWN_TIME = 30.0
@@ -31,10 +38,14 @@ var player_ref = null
 var spawn_position: Vector2
 var patrol_left_bound: float
 var patrol_right_bound: float
-var patrol_direction = 1  # 1 for right, -1 for left
 var last_attack_time = 0.0
 var state_timer = 0.0
-var idle_duration = 2.0  # Thời gian đứng yên trước khi patrol
+
+# Random movement variables
+var target_position: Vector2
+var current_idle_duration = 0.0
+var current_move_duration = 0.0
+var is_moving_to_target = false
 
 # Health system variables
 var current_health = MAX_HEALTH
@@ -68,6 +79,9 @@ func _ready():
 	# Thiết lập patrol bounds
 	patrol_left_bound = spawn_position.x - PATROL_RANGE / 2
 	patrol_right_bound = spawn_position.x + PATROL_RANGE / 2
+
+	# Khởi tạo target position ban đầu
+	target_position = spawn_position
 
 	# Thiết lập collision layers - Bot ở layer 3, không va chạm với player (layer 2)
 	collision_layer = 4  # Layer 3 (bit 2)
@@ -166,8 +180,8 @@ func handle_idle_state(_delta):
 		change_state(BotState.CHASING)
 		return
 
-	# Chuyển sang patrol sau một thời gian
-	if state_timer >= idle_duration:
+	# Chuyển sang patrol sau thời gian idle ngẫu nhiên
+	if state_timer >= current_idle_duration:
 		change_state(BotState.PATROLLING)
 
 func handle_patrol_state(_delta):
@@ -176,16 +190,25 @@ func handle_patrol_state(_delta):
 		change_state(BotState.CHASING)
 		return
 
-	# Di chuyển patrol
-	velocity.x = patrol_direction * PATROL_SPEED
+	# Nếu chưa có target hoặc đã đến target, tạo target mới
+	if not is_moving_to_target or global_position.distance_to(target_position) <= ARRIVAL_THRESHOLD:
+		generate_random_target()
+		is_moving_to_target = true
+		# Đặt thời gian di chuyển ngẫu nhiên
+		current_move_duration = randf_range(MIN_MOVE_TIME, MAX_MOVE_TIME)
+		state_timer = 0.0  # Reset timer cho move duration
 
-	# Kiểm tra biên patrol
-	if patrol_direction > 0 and global_position.x >= patrol_right_bound:
-		patrol_direction = -1
-		change_state(BotState.IDLE)  # Dừng một chút trước khi đổi hướng
-	elif patrol_direction < 0 and global_position.x <= patrol_left_bound:
-		patrol_direction = 1
-		change_state(BotState.IDLE)  # Dừng một chút trước khi đổi hướng
+	# Di chuyển về phía target
+	var direction = sign(target_position.x - global_position.x)
+	if abs(direction) > 0.1:  # Tránh rung lắc khi gần target
+		velocity.x = direction * PATROL_SPEED
+	else:
+		velocity.x = 0
+
+	# Kiểm tra thời gian di chuyển hoặc đã đến target
+	if state_timer >= current_move_duration or global_position.distance_to(target_position) <= ARRIVAL_THRESHOLD:
+		is_moving_to_target = false
+		change_state(BotState.IDLE)  # Dừng lại một chút trước khi chọn target mới
 
 func handle_chase_state(_delta):
 	if not player_ref:
@@ -249,6 +272,13 @@ func change_state(new_state: BotState):
 	current_state = new_state
 	state_timer = 0.0
 
+	# Thiết lập thời gian ngẫu nhiên cho các state
+	match new_state:
+		BotState.IDLE:
+			current_idle_duration = randf_range(MIN_IDLE_TIME, MAX_IDLE_TIME)
+		BotState.PATROLLING:
+			is_moving_to_target = false  # Reset target khi bắt đầu patrol
+
 	# Debug
 	print("Bot state changed to: ", BotState.keys()[new_state])
 
@@ -282,7 +312,13 @@ func update_animation_and_direction():
 	match current_state:
 		BotState.IDLE:
 			animated_sprite.play("idle")
-		BotState.PATROLLING, BotState.CHASING, BotState.RETURNING:
+		BotState.PATROLLING:
+			# Chỉ chạy animation walking khi thực sự di chuyển
+			if abs(velocity.x) > 10:
+				animated_sprite.play("walking")
+			else:
+				animated_sprite.play("idle")
+		BotState.CHASING, BotState.RETURNING:
 			animated_sprite.play("walking")
 		BotState.ATTACKING:
 			animated_sprite.play("dying")  # Tạm dùng dying làm attack animation
@@ -319,6 +355,20 @@ func get_distance_to_player() -> float:
 
 func get_distance_to_spawn() -> float:
 	return global_position.distance_to(spawn_position)
+
+# Random movement methods
+func generate_random_target():
+	# Tạo vị trí ngẫu nhiên trong khoảng patrol
+	var random_x = randf_range(patrol_left_bound, patrol_right_bound)
+	target_position = Vector2(random_x, spawn_position.y)
+
+	# Đảm bảo target không quá gần vị trí hiện tại
+	var min_distance = 50.0
+	while global_position.distance_to(target_position) < min_distance:
+		random_x = randf_range(patrol_left_bound, patrol_right_bound)
+		target_position = Vector2(random_x, spawn_position.y)
+
+	print("Bot tạo target mới tại: ", target_position)
 
 # Health system methods
 func take_damage(damage: int):
