@@ -352,7 +352,7 @@ func update_animation_and_direction():
 		BotState.CHASING, BotState.RETURNING:
 			animated_sprite.play("walking")
 		BotState.ATTACKING:
-			animated_sprite.play("dying")  # Tạm dùng dying làm attack animation
+			animated_sprite.play("slashing")  # Sử dụng animation slashing khi tấn công
 		BotState.DEAD:
 			animated_sprite.play("dying")
 		BotState.RESPAWNING:

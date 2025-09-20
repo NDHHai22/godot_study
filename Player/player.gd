@@ -421,6 +421,25 @@ func die():
 	# Dừng auto attack khi chết
 	stop_auto_attack()
 
+	# Chạy animation dying trước khi ẩn player
+	if animated_sprite:
+		animated_sprite.play("dying")
+		# Kết nối signal để ẩn player khi animation hoàn thành
+		if not animated_sprite.animation_finished.is_connected(_on_death_animation_finished):
+			animated_sprite.animation_finished.connect(_on_death_animation_finished)
+	else:
+		# Nếu không có animation, ẩn ngay lập tức
+		_hide_player_and_start_respawn()
+
+func _on_death_animation_finished():
+	# Ngắt kết nối signal để tránh gọi nhiều lần
+	if animated_sprite.animation_finished.is_connected(_on_death_animation_finished):
+		animated_sprite.animation_finished.disconnect(_on_death_animation_finished)
+
+	# Ẩn player và bắt đầu respawn
+	_hide_player_and_start_respawn()
+
+func _hide_player_and_start_respawn():
 	# Ẩn player
 	visible = false
 	set_physics_process(false)

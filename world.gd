@@ -11,6 +11,12 @@ const MAP_BOTTOM_LIMIT = 1000.0
 # Flag để đảm bảo camera limits chỉ được set một lần
 var camera_limits_initialized = false
 
+# Player Health Bar UI
+var health_bar_ui: Control
+var health_bar_bg: ColorRect
+var health_bar_fill: ColorRect
+var health_label: Label
+
 func _ready() -> void:
 	# Kết nối signal từ player
 	if player:
@@ -18,6 +24,9 @@ func _ready() -> void:
 	else:
 		# Fallback nếu player chưa sẵn sàng
 		call_deferred("setup_camera_limits")
+
+	# Tạo health bar UI
+	create_player_health_bar()
 
 func _on_player_ready():
 	print("Player ready signal received!")
@@ -41,6 +50,9 @@ func _physics_process(_delta):
 	# Giới hạn player position trong map bounds
 	if player:
 		limit_player_position()
+
+	# Cập nhật health bar
+	update_player_health_bar()
 
 func limit_player_position():
 	var player_pos = player.global_position
@@ -135,3 +147,60 @@ func _input(event):
 		# Test với limits khác
 		print("=== TESTING DIFFERENT LIMITS ===")
 		update_map_limits(100, 2500, 50, 800)
+
+# Player Health Bar functions
+func create_player_health_bar():
+	# Tạo container chính cho health bar
+	health_bar_ui = Control.new()
+	health_bar_ui.name = "PlayerHealthBarUI"
+	health_bar_ui.set_anchors_and_offsets_preset(Control.PRESET_TOP_RIGHT)
+	health_bar_ui.position = Vector2(-220, 20)  # Đặt ở góc phải trên
+	health_bar_ui.size = Vector2(200, 60)
+	add_child(health_bar_ui)
+
+	# Background của health bar
+	health_bar_bg = ColorRect.new()
+	health_bar_bg.name = "HealthBarBG"
+	health_bar_bg.size = Vector2(180, 20)
+	health_bar_bg.position = Vector2(10, 30)
+	health_bar_bg.color = Color.BLACK
+	health_bar_ui.add_child(health_bar_bg)
+
+	# Fill của health bar
+	health_bar_fill = ColorRect.new()
+	health_bar_fill.name = "HealthBarFill"
+	health_bar_fill.size = Vector2(180, 20)
+	health_bar_fill.position = Vector2(10, 30)
+	health_bar_fill.color = Color.GREEN
+	health_bar_ui.add_child(health_bar_fill)
+
+	# Label hiển thị text
+	health_label = Label.new()
+	health_label.name = "HealthLabel"
+	health_label.text = "Health: 100/100"
+	health_label.position = Vector2(10, 5)
+	health_label.size = Vector2(180, 20)
+	health_label.add_theme_color_override("font_color", Color.WHITE)
+	health_bar_ui.add_child(health_label)
+
+func update_player_health_bar():
+	if not player or not health_bar_fill or not health_label:
+		return
+
+	var current_health = player.current_health
+	var max_health = player.MAX_HEALTH
+	var health_percentage = float(current_health) / float(max_health)
+
+	# Cập nhật kích thước fill bar
+	health_bar_fill.size.x = 180 * health_percentage
+
+	# Đổi màu theo mức máu
+	if health_percentage > 0.6:
+		health_bar_fill.color = Color.GREEN
+	elif health_percentage > 0.3:
+		health_bar_fill.color = Color.YELLOW
+	else:
+		health_bar_fill.color = Color.RED
+
+	# Cập nhật text
+	health_label.text = "Health: " + str(current_health) + "/" + str(max_health)

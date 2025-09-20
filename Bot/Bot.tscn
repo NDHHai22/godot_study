@@ -108,8 +108,8 @@
 [ext_resource type="Texture2D" uid="uid://n84g54yegw8d" path="res://Assets/Bot/Goblin/Walking/0_Goblin_Walking_023.png" id="105_dqrwt"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_46ikf"]
-radius = 28.0
-height = 92.0
+radius = 23.0
+height = 80.0
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_46ikf"]
 animations = [{
@@ -479,10 +479,11 @@ shape = SubResource("CapsuleShape2D_46ikf")
 position = Vector2(4, -3)
 scale = Vector2(0.140278, 0.140278)
 sprite_frames = SubResource("SpriteFrames_46ikf")
-animation = &"dying"
-frame_progress = 0.914427
+animation = &"slashing"
+frame_progress = 0.604266
 
 [node name="Area2D" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_6dlnj")
