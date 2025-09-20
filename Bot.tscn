@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://cryt4dxdlnnxb"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xqtm5"]
+radius = 28.0
+height = 92.0
+
+[node name="Bot" type="Node2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_xqtm5")
+
+[node name="Container" type="Node2D" parent="CollisionShape2D"]

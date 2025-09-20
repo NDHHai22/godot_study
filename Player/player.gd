@@ -12,6 +12,12 @@ const BLINK_DURATION = 1.5  # Thời gian chớp mắt
 const BLINK_INTERVAL_MIN = 3.0  # Khoảng thời gian tối thiểu giữa các lần chớp mắt
 const BLINK_INTERVAL_MAX = 5.0  # Khoảng thời gian tối đa giữa các lần chớp mắt
 
+# Combat constants
+const ATTACK_DAMAGE = 50
+const ATTACK_RANGE = 100.0
+const ATTACK_COOLDOWN = 0.8
+const MAX_HEALTH = 100
+
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var camera = $Camera2D
 
@@ -23,6 +29,17 @@ var is_blinking = false  # Đang trong trạng thái chớp mắt
 var next_blink_time = 0.0  # Thời gian cho lần chớp mắt tiếp theo
 var last_direction = 1  # 1 for right, -1 for left
 
+# Combat variables
+var current_health = MAX_HEALTH
+var is_attacking = false
+var attack_timer = 0.0
+var can_attack = true
+
+# Target system variables
+var selected_target = null
+var auto_attacking = false
+var move_to_target = false
+
 # One-way platform variables
 var was_on_floor_last_frame = false
 var platform_snap_distance = 10.0
@@ -32,6 +49,13 @@ var camera_smoothing_speed = 5.0
 var camera_offset = Vector2.ZERO  # Offset cho camera nếu cần
 
 func _ready():
+	# Thêm player vào group để bot có thể phát hiện
+	add_to_group("player")
+
+	# Thiết lập collision layers - Player ở layer 2, không va chạm với bot (layer 3)
+	collision_layer = 2  # Layer 2 (bit 1)
+	collision_mask = 1   # Chỉ va chạm với ground (layer 1)
+
 	# Đặt animation mặc định
 	animated_sprite.play("idle")
 	# Thiết lập thời gian chớp mắt đầu tiên
@@ -98,6 +122,17 @@ func _physics_process(delta: float) -> void:
 	# Lưu trạng thái floor trước khi xử lý
 	was_on_floor_last_frame = is_on_floor()
 
+	# Xử lý attack timer
+	if attack_timer > 0:
+		attack_timer -= delta
+		if attack_timer <= 0:
+			can_attack = true
+			is_attacking = false
+
+	# Kiểm tra target còn hợp lệ không
+	if selected_target and (not is_instance_valid(selected_target) or selected_target.current_state == selected_target.BotState.DEAD):
+		stop_auto_attack()
+
 	handle_input()
 	handle_movement(delta)
 	handle_one_way_platforms()
@@ -105,6 +140,24 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func handle_input():
+	# Handle target selection - Tab để chọn target
+	if Input.is_action_just_pressed("ui_cancel"):  # Tab key
+		select_nearest_target()
+
+	# Handle attack - Space hoặc Enter để tấn công
+	if Input.is_action_just_pressed("ui_accept"):
+		if selected_target and selected_target.current_state != selected_target.BotState.DEAD:
+			# Bắt đầu auto attack target
+			start_auto_attack()
+		elif can_attack and not is_attacking:
+			# Tấn công thường
+			perform_attack()
+
+	# Kiểm tra di chuyển để dừng auto attack
+	var movement_input = Input.get_axis("ui_left", "ui_right")
+	if movement_input != 0 and auto_attacking:
+		stop_auto_attack()
+
 	# Handle flying - nhấn bất kỳ phím di chuyển nào khi không ở mặt đất để bay (trừ down)
 	if not is_flying and not is_on_floor():
 		if (Input.is_action_just_pressed("ui_up") or
@@ -122,6 +175,11 @@ func handle_input():
 
 func handle_movement(delta: float):
 	var direction := Input.get_axis("ui_left", "ui_right")
+
+	# Xử lý auto attack movement
+	if auto_attacking and selected_target and selected_target.current_state != selected_target.BotState.DEAD:
+		handle_auto_attack_movement(delta)
+		return
 
 	# Cập nhật hướng nhìn
 	if direction != 0:
@@ -166,6 +224,16 @@ func handle_ground_movement(delta: float, direction: float):
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 func handle_animations():
+	# Ưu tiên animation tấn công
+	if is_attacking:
+		if abs(velocity.x) > 10:
+			# Đang chạy và tấn công
+			animated_sprite.play("run_slashing")
+		else:
+			# Đứng yên và tấn công
+			animated_sprite.play("slashing")
+		return
+
 	if is_flying:
 		# Animation khi bay
 		if fall_timer > 0.25:  # Gần rơi (nửa thời gian FALL_DELAY)
@@ -239,3 +307,133 @@ func handle_one_way_platforms():
 			if result:
 				# Snap player xuống platform
 				global_position.y = result.position.y
+
+# Combat methods
+func perform_attack():
+	if not can_attack or is_attacking:
+		return
+
+	print("Player tấn công!")
+	is_attacking = true
+	can_attack = false
+	attack_timer = ATTACK_COOLDOWN
+
+	# Ưu tiên tấn công target đã chọn
+	if selected_target and selected_target.current_state != selected_target.BotState.DEAD:
+		var distance_to_target = global_position.distance_to(selected_target.global_position)
+		if distance_to_target <= ATTACK_RANGE:
+			if selected_target.has_method("take_damage"):
+				selected_target.take_damage(ATTACK_DAMAGE)
+				print("Đánh trúng target!")
+				return
+
+	# Nếu không có target hoặc target ngoài tầm, tìm bot gần nhất
+	var bots_in_range = find_bots_in_attack_range()
+	for bot in bots_in_range:
+		if bot.has_method("take_damage"):
+			bot.take_damage(ATTACK_DAMAGE)
+			print("Đánh trúng bot!")
+			break  # Chỉ đánh một con
+
+func find_bots_in_attack_range() -> Array:
+	var bots = []
+	var all_bots = get_tree().get_nodes_in_group("bots")
+
+	for bot in all_bots:
+		var distance = global_position.distance_to(bot.global_position)
+		if distance <= ATTACK_RANGE:
+			bots.append(bot)
+
+	return bots
+
+# Hàm nhận damage từ bot
+func take_damage(damage: int):
+	current_health -= damage
+	print("Player nhận ", damage, " damage từ bot! Health còn: ", current_health)
+
+	# Hiệu ứng nhận damage
+	if animated_sprite:
+		animated_sprite.modulate = Color.RED
+		var tween = create_tween()
+		tween.tween_property(animated_sprite, "modulate", Color.WHITE, 0.2)
+
+	if current_health <= 0:
+		die()
+
+func die():
+	print("Player đã chết!")
+	# Dừng auto attack khi chết
+	stop_auto_attack()
+	# Có thể thêm logic respawn cho player ở đây
+
+# Target system methods
+func select_nearest_target():
+	var bots = get_tree().get_nodes_in_group("bots")
+	var nearest_bot = null
+	var nearest_distance = 999999.0
+
+	for bot in bots:
+		if bot.current_state != bot.BotState.DEAD:
+			var distance = global_position.distance_to(bot.global_position)
+			if distance < nearest_distance:
+				nearest_distance = distance
+				nearest_bot = bot
+
+	# Bỏ chọn target cũ
+	if selected_target and selected_target.has_method("hide_target_indicator"):
+		selected_target.hide_target_indicator()
+
+	# Chọn target mới
+	selected_target = nearest_bot
+	if selected_target and selected_target.has_method("show_target_indicator"):
+		selected_target.show_target_indicator()
+		print("Đã chọn target: ", selected_target.name)
+
+func start_auto_attack():
+	if not selected_target:
+		return
+
+	auto_attacking = true
+	move_to_target = true
+	print("Bắt đầu auto attack target!")
+
+func stop_auto_attack():
+	auto_attacking = false
+	move_to_target = false
+
+	# Bỏ chọn target
+	if selected_target and selected_target.has_method("hide_target_indicator"):
+		selected_target.hide_target_indicator()
+	selected_target = null
+	print("Dừng auto attack!")
+
+func handle_auto_attack_movement(delta: float):
+	if not selected_target or selected_target.current_state == selected_target.BotState.DEAD:
+		stop_auto_attack()
+		return
+
+	var distance_to_target = global_position.distance_to(selected_target.global_position)
+
+	# Nếu đủ gần để tấn công
+	if distance_to_target <= ATTACK_RANGE:
+		move_to_target = false
+		# Tấn công nếu có thể
+		if can_attack and not is_attacking:
+			perform_attack()
+	else:
+		# Di chuyển về phía target
+		move_to_target = true
+		var direction = sign(selected_target.global_position.x - global_position.x)
+
+		# Cập nhật hướng nhìn
+		last_direction = direction
+		animated_sprite.flip_h = direction < 0
+
+		# Di chuyển
+		if is_flying:
+			velocity.x = direction * FLY_SPEED
+		else:
+			velocity.x = direction * SPEED
+			# Áp dụng gravity
+			if not is_on_floor():
+				velocity += get_gravity() * delta
