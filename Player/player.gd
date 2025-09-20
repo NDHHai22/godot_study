@@ -22,6 +22,7 @@ const RESPAWN_TIME = 5.0  # Player respawn nhanh hơn bot
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var camera = $Camera2D
 @onready var health_label = $CanvasLayer/Label
+@onready var respawn_button = $CanvasLayer/Button
 
 # Biến trạng thái
 var is_flying = false
@@ -96,6 +97,9 @@ func _ready():
 	setup_health_label()
 	update_health_display()
 
+	# Kết nối nút respawn và ẩn nó ban đầu
+	setup_respawn_button()
+
 	# Thiết lập camera để theo dõi player
 	setup_camera()
 
@@ -153,6 +157,10 @@ func set_camera_offset(offset: Vector2):
 		print("Camera offset đã được cập nhật: ", offset)
 
 func _physics_process(delta: float) -> void:
+	# Không xử lý gì khi player đã chết
+	if is_dead:
+		return
+
 	# Lưu trạng thái floor trước khi xử lý
 	was_on_floor_last_frame = is_on_floor()
 
@@ -184,7 +192,7 @@ func handle_input():
 		select_nearest_target()
 
 	# Handle attack - Space hoặc Enter để tấn công
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("ui_accept") and not is_dead:
 		if selected_target and selected_target.current_state != selected_target.BotState.DEAD:
 			# Bắt đầu auto attack target
 			start_auto_attack()
@@ -355,7 +363,9 @@ func handle_one_way_platforms():
 
 # Combat methods
 func perform_attack():
-	if not can_attack or is_attacking:
+	if not can_attack or is_attacking or is_dead:
+		if is_dead:
+			print("⚠️ perform_attack() blocked - player is dead!")
 		return
 
 	print("Player tấn công!")
@@ -414,12 +424,15 @@ func take_damage(damage: int, attacker = null):
 
 	# Kiểm tra chết
 	if current_health <= 0:
+		print("🔥 Player health <= 0, calling die()...")
 		die()
 
 func die():
 	if is_dead:
+		print("⚠️ die() called but player already dead!")
 		return
 
+	print("💀 Player die() function called - setting is_dead = true")
 	is_dead = true
 	in_combat = false
 	combat_target = null
@@ -431,6 +444,11 @@ func die():
 
 	# Chạy animation dying trước khi ẩn player
 	if animated_sprite:
+		# Đặt animation dying không loop
+		var sprite_frames = animated_sprite.sprite_frames
+		if sprite_frames and sprite_frames.has_animation("dying"):
+			sprite_frames.set_animation_loop("dying", false)
+
 		animated_sprite.play("dying")
 		# Kết nối signal để ẩn player khi animation hoàn thành
 		if not animated_sprite.animation_finished.is_connected(_on_death_animation_finished):
@@ -452,8 +470,8 @@ func _hide_player_and_start_respawn():
 	visible = false
 	set_physics_process(false)
 
-	# Bắt đầu respawn timer
-	respawn_timer.start()
+	# Hiển thị nút respawn thay vì tự động respawn
+	show_respawn_button()
 
 func _on_respawn_timer_timeout():
 	respawn()
@@ -477,6 +495,9 @@ func respawn():
 	# Hiện player
 	visible = true
 	set_physics_process(true)
+
+	# Ẩn nút respawn
+	hide_respawn_button()
 
 	# Reset animation
 	animated_sprite.play("idle")
@@ -532,7 +553,7 @@ func select_nearest_target():
 		print("Đã chọn target: ", selected_target.name)
 
 func start_auto_attack():
-	if not selected_target:
+	if not selected_target or is_dead:
 		return
 
 	auto_attacking = true
@@ -742,3 +763,28 @@ func setup_health_label():
 func update_health_display():
 	if health_label:
 		health_label.text = "Health: " + str(current_health) + "/" + str(MAX_HEALTH)
+		print("🩺 Health display updated: ", current_health, "/", MAX_HEALTH, " (is_dead: ", is_dead, ")")
+
+# Respawn Button Functions
+func setup_respawn_button():
+	if respawn_button:
+		# Kết nối signal
+		respawn_button.pressed.connect(_on_respawn_button_pressed)
+		# Ẩn nút ban đầu
+		respawn_button.visible = false
+		print("Respawn button setup complete")
+
+func show_respawn_button():
+	if respawn_button:
+		respawn_button.visible = true
+		print("Respawn button shown")
+
+func hide_respawn_button():
+	if respawn_button:
+		respawn_button.visible = false
+		print("Respawn button hidden")
+
+func _on_respawn_button_pressed():
+	print("🔄 Respawn button pressed!")
+	hide_respawn_button()
+	respawn()

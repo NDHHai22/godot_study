@@ -1,4 +1,4 @@
-[gd_scene load_steps=199 format=3 uid="uid://ppbpie6uy3eg"]
+[gd_scene load_steps=200 format=3 uid="uid://ppbpie6uy3eg"]
 
 [ext_resource type="Texture2D" uid="uid://bv08ybmph0n8o" path="res://Assets/Player/Fallen_Angels/Fallen_Angels_3/Dying/0_Fallen_Angels_Dying_000.png" id="1_eho2d"]
 [ext_resource type="Script" uid="uid://dnu04jvx8w5vq" path="res://Player/player.gd" id="1_tgjvq"]
@@ -245,7 +245,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("15_ijmns")
 }],
-"loop": true,
+"loop": false,
 "name": &"dying",
 "speed": 24.0
 }, {
@@ -869,6 +869,8 @@ animations = [{
 radius = 28.0
 height = 92.0
 
+[sub_resource type="Theme" id="Theme_tgjvq"]
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_tgjvq")
 
@@ -901,3 +903,11 @@ offset_right = -20.0
 offset_bottom = 30.0
 text = "Health: 100/100"
 horizontal_alignment = 2
+
+[node name="Button" type="Button" parent="CanvasLayer"]
+offset_left = 531.0
+offset_top = 510.0
+offset_right = 602.0
+offset_bottom = 541.0
+theme = SubResource("Theme_tgjvq")
+text = "Hồi sinh"
