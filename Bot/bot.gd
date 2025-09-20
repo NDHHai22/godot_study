@@ -56,6 +56,7 @@ var is_moving_to_target = false
 var current_health = MAX_HEALTH
 var respawn_timer = 0.0
 var is_dead = false
+var is_currently_attacking = false  # Theo dõi khi đang thực sự tấn công
 
 # Node references
 @onready var animated_sprite = $Container/AnimatedSprite2D
@@ -300,6 +301,10 @@ func handle_return_state(_delta):
 	velocity.x = direction * PATROL_SPEED
 
 func change_state(new_state: BotState):
+	# Reset trạng thái tấn công khi rời khỏi ATTACKING state
+	if current_state == BotState.ATTACKING and new_state != BotState.ATTACKING:
+		is_currently_attacking = false
+
 	current_state = new_state
 	state_timer = 0.0
 
@@ -322,6 +327,20 @@ func can_detect_player() -> bool:
 
 func perform_attack():
 	print("Bot attacks player!")
+
+	# Đặt trạng thái đang tấn công
+	is_currently_attacking = true
+
+	# Đặt animation slashing không loop và chạy
+	var sprite_frames = animated_sprite.sprite_frames
+	if sprite_frames and sprite_frames.has_animation("slashing"):
+		sprite_frames.set_animation_loop("slashing", false)
+
+	animated_sprite.play("slashing")
+
+	# Kết nối signal để reset trạng thái khi animation hoàn thành
+	if not animated_sprite.animation_finished.is_connected(_on_attack_animation_finished):
+		animated_sprite.animation_finished.connect(_on_attack_animation_finished)
 
 	# Tấn công player và truyền self làm attacker
 	if player_ref and player_ref.has_method("take_damage"):
@@ -352,7 +371,9 @@ func update_animation_and_direction():
 		BotState.CHASING, BotState.RETURNING:
 			animated_sprite.play("walking")
 		BotState.ATTACKING:
-			animated_sprite.play("slashing")  # Sử dụng animation slashing khi tấn công
+			# Chỉ chạy idle khi đang trong trạng thái attacking nhưng không thực sự tấn công
+			if not is_currently_attacking:
+				animated_sprite.play("idle")
 		BotState.DEAD:
 			animated_sprite.play("dying")
 		BotState.RESPAWNING:
@@ -598,6 +619,12 @@ func handle_respawn_state(_delta):
 
 func _on_respawn_timer_timeout():
 	respawn()
+
+# Attack animation callback
+func _on_attack_animation_finished():
+	# Reset trạng thái tấn công khi animation hoàn thành
+	is_currently_attacking = false
+	print("Bot attack animation finished")
 
 func respawn():
 	print("Bot hồi sinh!")
