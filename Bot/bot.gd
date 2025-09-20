@@ -54,6 +54,10 @@ var health_bar_bg: ColorRect
 var health_bar_fill: ColorRect
 var target_indicator: Label
 
+# Click detection
+var click_area: Area2D
+var click_shape: CollisionShape2D
+
 func _ready():
 	# Thêm bot vào group để player có thể tìm thấy
 	add_to_group("bots")
@@ -86,6 +90,9 @@ func _ready():
 
 	# Tạo health bar
 	create_health_bar()
+
+	# Tạo click area
+	create_click_area()
 
 	print("Bot spawned at: ", spawn_position)
 
@@ -151,7 +158,7 @@ func find_node_by_type(node: Node, type_name: String, name_contains: String = ""
 
 	return null
 
-func handle_idle_state(delta):
+func handle_idle_state(_delta):
 	velocity.x = 0
 
 	# Kiểm tra player trong tầm phát hiện
@@ -163,7 +170,7 @@ func handle_idle_state(delta):
 	if state_timer >= idle_duration:
 		change_state(BotState.PATROLLING)
 
-func handle_patrol_state(delta):
+func handle_patrol_state(_delta):
 	# Kiểm tra player trong tầm phát hiện
 	if can_detect_player():
 		change_state(BotState.CHASING)
@@ -180,7 +187,7 @@ func handle_patrol_state(delta):
 		patrol_direction = 1
 		change_state(BotState.IDLE)  # Dừng một chút trước khi đổi hướng
 
-func handle_chase_state(delta):
+func handle_chase_state(_delta):
 	if not player_ref:
 		change_state(BotState.RETURNING)
 		return
@@ -207,7 +214,7 @@ func handle_chase_state(delta):
 	var direction = sign(player_ref.global_position.x - global_position.x)
 	velocity.x = direction * CHASE_SPEED
 
-func handle_attack_state(delta):
+func handle_attack_state(_delta):
 	velocity.x = 0  # Dừng lại khi tấn công
 
 	if not player_ref:
@@ -226,7 +233,7 @@ func handle_attack_state(delta):
 		perform_attack()
 		attack_timer.start()
 
-func handle_return_state(delta):
+func handle_return_state(_delta):
 	# Quay về vị trí spawn
 	var distance_to_spawn = global_position.distance_to(spawn_position)
 
@@ -353,10 +360,15 @@ func die():
 	hide_health_bar()
 	hide_target_indicator()
 
-	# Chạy animation chết (không lặp)
+	# Chạy animation chết (không lặp) và biến mất
 	if animated_sprite:
+		# Tắt loop cho animation dying
+		var sprite_frames = animated_sprite.sprite_frames
+		if sprite_frames and sprite_frames.has_animation("dying"):
+			sprite_frames.set_animation_loop("dying", false)
+
 		animated_sprite.play("dying")
-		# Kết nối signal để dừng animation khi hoàn thành
+		# Kết nối signal để ẩn bot khi animation hoàn thành
 		if not animated_sprite.animation_finished.is_connected(_on_death_animation_finished):
 			animated_sprite.animation_finished.connect(_on_death_animation_finished)
 
@@ -364,10 +376,10 @@ func die():
 	respawn_timer_node.start()
 
 func _on_death_animation_finished():
-	# Dừng animation ở frame cuối
+	# Ẩn bot sau khi animation chết hoàn thành
 	if animated_sprite and current_state == BotState.DEAD:
-		animated_sprite.stop()
-		animated_sprite.frame = animated_sprite.sprite_frames.get_frame_count("dying") - 1
+		animated_sprite.visible = false
+		print("Bot đã biến mất sau khi chết")
 
 # Health bar methods
 func create_health_bar():
@@ -430,6 +442,38 @@ func show_health_bar():
 	if health_bar_container:
 		health_bar_container.visible = true
 
+# Click area methods
+func create_click_area():
+	# Tạo Area2D cho click detection
+	click_area = Area2D.new()
+	click_area.name = "ClickArea"
+	add_child(click_area)
+
+	# Tạo collision shape cho click area
+	click_shape = CollisionShape2D.new()
+	var shape = RectangleShape2D.new()
+	shape.size = Vector2(80, 100)  # Kích thước click area
+	click_shape.shape = shape
+	click_area.add_child(click_shape)
+
+	# Kết nối signal cho click detection
+	click_area.input_event.connect(_on_click_area_input_event)
+
+func _on_click_area_input_event(_viewport: Node, event: InputEvent, _shape_idx: int):
+	if event is InputEventMouseButton:
+		var mouse_event = event as InputEventMouseButton
+		if mouse_event.pressed and mouse_event.button_index == MOUSE_BUTTON_LEFT:
+			# Thông báo cho player về việc click
+			notify_player_click()
+
+func notify_player_click():
+	# Tìm player và thông báo bot được click
+	var players = get_tree().get_nodes_in_group("player")
+	if players.size() > 0:
+		var player = players[0]
+		if player.has_method("on_bot_clicked"):
+			player.on_bot_clicked(self)
+
 func handle_respawn_state(_delta):
 	# Chờ respawn timer
 	velocity = Vector2.ZERO
@@ -457,10 +501,16 @@ func respawn():
 	# Reset về trạng thái idle
 	change_state(BotState.IDLE)
 
-	# Chạy animation idle
+	# Hiện lại bot và chạy animation idle
 	if animated_sprite:
+		animated_sprite.visible = true
 		animated_sprite.play("idle")
 		animated_sprite.modulate = Color.WHITE
+
+		# Bật lại loop cho animation dying cho lần chết tiếp theo
+		var sprite_frames = animated_sprite.sprite_frames
+		if sprite_frames and sprite_frames.has_animation("dying"):
+			sprite_frames.set_animation_loop("dying", false)  # Vẫn giữ không loop
 
 	# Reset health bar
 	show_health_bar()

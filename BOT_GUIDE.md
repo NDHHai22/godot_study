@@ -71,6 +71,8 @@ func _ready():
 ### 3. **Combat Controls**
 Player controls:
 - **Tab**: Chọn bot gần nhất làm target (hiện mũi tên đỏ)
+- **Click chuột trái**: Chọn bot làm target
+- **Double click chuột trái**: Tự động chạy đến và đánh bot
 - **Space/Enter**:
   - Nếu có target: Tự động chạy đến và đánh target
   - Nếu không có target: Tấn công bot trong tầm
@@ -84,20 +86,28 @@ Player controls:
 - **"idle"**: Đứng yên
 
 ### 5. **Target System**
-- Nhấn Tab để chọn bot gần nhất
+- **Tab**: Chọn bot gần nhất
+- **Click chuột**: Chọn bot cụ thể làm target
+- **Double click chuột**: Tự động chạy đến và đánh bot
 - Bot được chọn sẽ có mũi tên đỏ ↓ trên đầu
 - Nhấn Space để tự động chạy đến và đánh target
 - Di chuyển thủ công sẽ hủy auto attack
 - Target tự động bỏ chọn khi bot chết
 
-### 6. **Health System & UI**
+### 6. **Mouse Controls**
+- **Single click**: Chọn bot làm target (hiện mũi tên đỏ)
+- **Double click**: Tự động chạy đến và tấn công bot
+- **Click area**: Toàn bộ vùng bot (80x100 pixel)
+
+### 7. **Health System & UI**
 - **Health Bar**: Hiển thị trên đầu mỗi bot
   - Xanh lá: > 60% HP
   - Vàng: 30-60% HP
   - Đỏ: < 30% HP
 - **Target Indicator**: Mũi tên đỏ ↓ trên bot được chọn
-- **Death Animation**: Không lặp lại, dừng ở frame cuối
-- **Respawn**: Bot hồi sinh tại điểm spawn sau 30 giây
+- **Death Animation**: Chạy 1 lần rồi bot biến mất
+- **Respawn**: Bot xuất hiện lại tại điểm spawn sau 30 giây
+- **Click Area**: Vùng 80x100 pixel để click chọn bot
 
 ```gdscript
 # Health constants

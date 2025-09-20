@@ -159,7 +159,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("15_eil8k")
 }],
-"loop": true,
+"loop": false,
 "name": &"dying",
 "speed": 24.0
 }, {

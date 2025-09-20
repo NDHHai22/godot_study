@@ -40,6 +40,11 @@ var selected_target = null
 var auto_attacking = false
 var move_to_target = false
 
+# Click system variables
+var last_clicked_bot = null
+var last_click_time = 0.0
+var double_click_time = 0.5  # Thời gian tối đa giữa 2 click để tính là double click
+
 # One-way platform variables
 var was_on_floor_last_frame = false
 var platform_snap_distance = 10.0
@@ -437,3 +442,41 @@ func handle_auto_attack_movement(delta: float):
 			# Áp dụng gravity
 			if not is_on_floor():
 				velocity += get_gravity() * delta
+
+# Click system methods
+func on_bot_clicked(bot):
+	if not bot or bot.current_state == bot.BotState.DEAD:
+		return
+
+	# Sử dụng Time.get_time_dict_from_system() để lấy thời gian hiện tại
+	var time_stamp = Time.get_time_dict_from_system()
+	var current_time_ms = time_stamp.hour * 3600000 + time_stamp.minute * 60000 + time_stamp.second * 1000
+
+	# Kiểm tra double click
+	if last_clicked_bot == bot and (current_time_ms - last_click_time) <= (double_click_time * 1000):
+		# Double click - bắt đầu auto attack
+		print("Double click trên bot - bắt đầu auto attack!")
+		set_target_and_auto_attack(bot)
+	else:
+		# Single click - chỉ chọn target
+		print("Single click trên bot - chọn làm target")
+		select_target(bot)
+
+	# Cập nhật thông tin click
+	last_clicked_bot = bot
+	last_click_time = current_time_ms
+
+func select_target(bot):
+	# Bỏ chọn target cũ
+	if selected_target and selected_target.has_method("hide_target_indicator"):
+		selected_target.hide_target_indicator()
+
+	# Chọn target mới
+	selected_target = bot
+	if selected_target and selected_target.has_method("show_target_indicator"):
+		selected_target.show_target_indicator()
+		print("Đã chọn target: ", selected_target.name)
+
+func set_target_and_auto_attack(bot):
+	select_target(bot)
+	start_auto_attack()

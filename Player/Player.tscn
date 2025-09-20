@@ -876,7 +876,7 @@ script = ExtResource("1_tgjvq")
 scale = Vector2(0.147778, 0.147778)
 sprite_frames = SubResource("SpriteFrames_7qxpp")
 animation = &"slashing"
-frame_progress = 0.0950328
+frame_progress = 0.325125
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_0de1t")
