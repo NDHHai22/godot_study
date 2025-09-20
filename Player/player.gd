@@ -40,6 +40,10 @@ var selected_target = null
 var auto_attacking = false
 var move_to_target = false
 
+# Auto movement variables
+var auto_flying = false  # Đang bay tự động để đến target
+var target_reached_ground = false  # Đã đến gần target trên mặt đất
+
 # Click system variables
 var last_clicked_bot = null
 var last_click_time = 0.0
@@ -142,6 +146,11 @@ func _physics_process(delta: float) -> void:
 	handle_movement(delta)
 	handle_one_way_platforms()
 	handle_animations()
+
+	# Debug velocity khi auto flying
+	if auto_flying and move_to_target:
+		print("Final velocity before move_and_slide: x=", velocity.x, ", y=", velocity.y)
+
 	move_and_slide()
 
 func handle_input():
@@ -181,10 +190,10 @@ func handle_input():
 func handle_movement(delta: float):
 	var direction := Input.get_axis("ui_left", "ui_right")
 
-	# Xử lý auto attack movement
+	# Xử lý auto attack movement - RETURN để không xử lý input thủ công
 	if auto_attacking and selected_target and selected_target.current_state != selected_target.BotState.DEAD:
 		handle_auto_attack_movement(delta)
-		return
+		return  # QUAN TRỌNG: Return để không override velocity
 
 	# Cập nhật hướng nhìn
 	if direction != 0:
@@ -218,8 +227,8 @@ func handle_flying_movement(delta: float, direction: float):
 		fall_timer = 0.0
 
 func handle_ground_movement(delta: float, direction: float):
-	# Add gravity when not flying
-	if not is_on_floor():
+	# Add gravity when not flying AND not auto flying
+	if not is_on_floor() and not auto_flying:
 		velocity += get_gravity() * delta
 
 	# Handle horizontal movement (không còn xử lý jump ở đây vì đã chuyển sang bay)
@@ -231,9 +240,12 @@ func handle_ground_movement(delta: float, direction: float):
 func handle_animations():
 	# Ưu tiên animation tấn công
 	if is_attacking:
-		if abs(velocity.x) > 10:
-			# Đang chạy và tấn công
-			animated_sprite.play("run_slashing")
+		if abs(velocity.x) > 10 or abs(velocity.y) > 10:
+			# Đang di chuyển và tấn công
+			if is_flying:
+				animated_sprite.play("slashing_in_the_air")  # Tấn công trên không
+			else:
+				animated_sprite.play("run_slashing")  # Chạy và tấn công
 		else:
 			# Đứng yên và tấn công
 			animated_sprite.play("slashing")
@@ -243,6 +255,9 @@ func handle_animations():
 		# Animation khi bay
 		if fall_timer > 0.25:  # Gần rơi (nửa thời gian FALL_DELAY)
 			animated_sprite.play("falling_down")
+		elif auto_attacking and move_to_target:
+			# Đang bay để đến target
+			animated_sprite.play("jump_loop")
 		else:
 			animated_sprite.play("jump_loop")
 	else:
@@ -400,11 +415,20 @@ func start_auto_attack():
 
 	auto_attacking = true
 	move_to_target = true
+	auto_flying = false
+	target_reached_ground = false
 	print("Bắt đầu auto attack target!")
 
 func stop_auto_attack():
 	auto_attacking = false
 	move_to_target = false
+	auto_flying = false
+	target_reached_ground = false
+
+	# Dừng bay tự động nếu đang bay
+	if is_flying and auto_flying:
+		# Cho phép rơi tự nhiên
+		fall_timer = FALL_DELAY
 
 	# Bỏ chọn target
 	if selected_target and selected_target.has_method("hide_target_indicator"):
@@ -417,30 +441,127 @@ func handle_auto_attack_movement(delta: float):
 		stop_auto_attack()
 		return
 
-	var distance_to_target = global_position.distance_to(selected_target.global_position)
+	var target_pos = selected_target.global_position
+	var horizontal_distance = abs(target_pos.x - global_position.x)
+	var vertical_distance = target_pos.y - global_position.y
 
-	# Nếu đủ gần để tấn công
-	if distance_to_target <= ATTACK_RANGE:
+	# Kiểm tra điều kiện tấn công: gần theo chiều ngang VÀ cùng độ cao
+	var in_horizontal_range = horizontal_distance <= ATTACK_RANGE
+	var in_vertical_range = abs(vertical_distance) <= 25.0  # Cho phép sai lệch 25px theo chiều cao
+	var can_attack_target = in_horizontal_range and in_vertical_range
+
+	# Debug info về vị trí
+	if auto_attacking and move_to_target:
+		print("Distance - H: ", int(horizontal_distance), "px, V: ", int(vertical_distance), "px, Can attack: ", can_attack_target)
+
+	# Nếu đủ gần và cùng độ cao để tấn công
+	if can_attack_target:
 		move_to_target = false
+		# Dừng di chuyển khi có thể tấn công
+		velocity.x = 0
+		if is_flying:
+			velocity.y = 0
+
+		# Debug info và visual feedback
+		if auto_flying:
+			print("✅ Đã ngang hàng với bot (H:", int(horizontal_distance), "px, V:", int(abs(vertical_distance)), "px) - Có thể tấn công!")
+
 		# Tấn công nếu có thể
 		if can_attack and not is_attacking:
 			perform_attack()
 	else:
-		# Di chuyển về phía target
+		# Di chuyển về phía target (cả X và Y)
 		move_to_target = true
-		var direction = sign(selected_target.global_position.x - global_position.x)
+
+		# Tính toán hướng di chuyển theo cả 2 trục
+		var direction_vector = (target_pos - global_position).normalized()
+		var horizontal_direction = sign(target_pos.x - global_position.x)
 
 		# Cập nhật hướng nhìn
-		last_direction = direction
-		animated_sprite.flip_h = direction < 0
+		if abs(horizontal_direction) > 0.1:
+			last_direction = horizontal_direction
+			animated_sprite.flip_h = horizontal_direction < 0
 
-		# Di chuyển
+		# Logic bay thông minh (sử dụng biến đã có)
+
+		# Logic bay thông minh
+		var should_start_flying = false
+		var should_stop_flying = false
+
+		# Bắt đầu bay nếu:
+		# 1. Target ở cao hơn 25px (cần bay lên để ngang hàng)
+		# 2. Target ở thấp hơn 25px và player đang ở cao (cần bay xuống)
+		# 3. Cần điều chỉnh độ cao để có thể tấn công
+		if vertical_distance < -25.0:  # Target ở trên cao hơn player
+			should_start_flying = true
+			print("Cần bay lên để đến bot ở cao hơn")
+		elif vertical_distance > 25.0:  # Target ở thấp hơn player
+			should_start_flying = true
+			print("Cần bay xuống để đến bot ở thấp hơn")
+		elif abs(vertical_distance) > 25.0 and horizontal_distance > 40.0:
+			# Cần điều chỉnh độ cao và còn xa theo chiều ngang
+			should_start_flying = true
+			print("Cần điều chỉnh độ cao để ngang hàng với bot")
+
+		# Dừng bay chỉ khi:
+		# 1. Đã ngang hàng với target (cùng độ cao ±25px) VÀ có thể tấn công
+		# 2. Đã đến vị trí tấn công lý tưởng
+		if abs(vertical_distance) <= 25.0 and horizontal_distance <= ATTACK_RANGE + 20.0:
+			# Đã ngang hàng và gần đủ để tấn công
+			should_stop_flying = true
+			print("Đã ngang hàng với bot - dừng bay")
+		elif abs(vertical_distance) <= 15.0 and horizontal_distance <= ATTACK_RANGE * 1.5:
+			# Rất gần đúng vị trí - dừng bay để tấn công
+			should_stop_flying = true
+			print("Đã đến vị trí tấn công - dừng bay")
+
+		# Thực hiện bay hoặc dừng bay
+		if should_start_flying and not is_flying:
+			is_flying = true
+			auto_flying = true
+			fall_timer = 0.0
+			velocity.y = 0
+			print("Bắt đầu bay để đến target")
+		elif should_stop_flying and is_flying and auto_flying:
+			auto_flying = false
+			fall_timer = FALL_DELAY  # Cho phép rơi
+			print("Dừng bay, chuẩn bị hạ cánh")
+
+		# Di chuyển theo trục X và Y với ưu tiên độ cao
 		if is_flying:
-			velocity.x = direction * FLY_SPEED
+			# Ưu tiên điều chỉnh độ cao khi chênh lệch lớn
+			var height_priority = abs(vertical_distance) > 25.0
+			var very_close_height = abs(vertical_distance) <= 15.0
+
+			if height_priority:
+				# Tập trung vào điều chỉnh độ cao
+				var vertical_speed = FLY_SPEED * 0.9
+				var horizontal_speed = FLY_SPEED * 0.4  # Chậm hơn theo chiều ngang
+
+				velocity.y = sign(vertical_distance) * vertical_speed
+				velocity.x = direction_vector.x * horizontal_speed
+				print("Ưu tiên điều chỉnh độ cao: ", int(vertical_distance), "px, Set velocity.y = ", velocity.y)
+
+			elif very_close_height:
+				# Đã rất gần đúng độ cao - tập trung di chuyển ngang
+				velocity.x = direction_vector.x * FLY_SPEED
+				velocity.y = direction_vector.y * FLY_SPEED * 0.2  # Điều chỉnh độ cao rất nhẹ
+				print("Gần đúng độ cao - tập trung di chuyển ngang")
+
+			else:
+				# Di chuyển cân bằng
+				velocity.x = direction_vector.x * FLY_SPEED * 0.8
+				velocity.y = direction_vector.y * FLY_SPEED * 0.6
+
+			# Reset fall timer nếu đang auto flying
+			if auto_flying:
+				fall_timer = 0.0
 		else:
-			velocity.x = direction * SPEED
-			# Áp dụng gravity
-			if not is_on_floor():
+			# Di chuyển trên mặt đất
+			velocity.x = horizontal_direction * SPEED
+
+			# Áp dụng gravity khi không bay VÀ không đang auto flying
+			if not is_on_floor() and not auto_flying:
 				velocity += get_gravity() * delta
 
 # Click system methods

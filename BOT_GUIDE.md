@@ -84,24 +84,55 @@ Player controls:
 ### 4. **Combat Animations**
 - **"slashing"**: Đứng yên tấn công
 - **"run_slashing"**: Vừa chạy vừa tấn công
+- **"slashing_in_the_air"**: Tấn công trên không
 - **"running"**: Chạy bình thường
+- **"jump_loop"**: Bay đến target
 - **"idle"**: Đứng yên
 
-### 5. **Target System**
+### 5. **Target System với Auto-Flight**
 - **Tab**: Chọn bot gần nhất
 - **Click chuột**: Chọn bot cụ thể làm target
-- **Double click chuột**: Tự động chạy đến và đánh bot
+- **Double click chuột**: Tự động chạy/bay đến và đánh bot
 - Bot được chọn sẽ có mũi tên đỏ ↓ trên đầu
-- Nhấn Space để tự động chạy đến và đánh target
+- Nhấn Space để tự động di chuyển đến và đánh target
+- **Auto-Flight**: Tự động bay khi target ở cao hơn 50px
+- **Smart Landing**: Tự động hạ cánh khi gần target
 - Di chuyển thủ công sẽ hủy auto attack
 - Target tự động bỏ chọn khi bot chết
 
-### 6. **Mouse Controls**
+### 6. **Auto-Flight System với Height Matching**
+Player tự động bay để đứng ngang hàng với bot:
+
+**Bắt đầu bay khi:**
+- Target ở cao hơn 25px (bay lên để ngang hàng)
+- Target ở thấp hơn 25px (bay xuống để ngang hàng)
+- Cần điều chỉnh độ cao (>25px) và còn xa (>40px)
+
+**Ưu tiên di chuyển thông minh:**
+- **Height Priority** (chênh >25px): Y=90% speed, X=40% speed
+- **Balanced Mode** (chênh 15-25px): Y=60% speed, X=80% speed
+- **Horizontal Focus** (chênh <15px): Y=20% speed, X=100% speed
+
+**Điều kiện tấn công:**
+- **Horizontal**: ≤100px (trong tầm)
+- **Vertical**: ±25px (ngang hàng)
+- **Attack Ready**: Cả 2 điều kiện đều đạt
+
+**Dừng bay khi:**
+- Ngang hàng (±25px) và gần đủ tấn công (≤120px)
+- Rất gần vị trí lý tưởng (±15px, ≤150px)
+
+**Animation theo context:**
+- `jump_loop`: Bay đến target
+- `slashing_in_the_air`: Tấn công ngang hàng trên không
+- `falling_down`: Hạ cánh
+
+### 7. **Mouse Controls**
 - **Single click**: Chọn bot làm target (hiện mũi tên đỏ)
-- **Double click**: Tự động chạy đến và tấn công bot
+- **Double click**: Tự động di chuyển 3D đến và tấn công bot
 - **Click area**: Toàn bộ vùng bot (80x100 pixel)
 
-### 7. **Health System & UI**
+### 8. **Health System & UI**
 - **Health Bar**: Hiển thị trên đầu mỗi bot
   - Xanh lá: > 60% HP
   - Vàng: 30-60% HP
